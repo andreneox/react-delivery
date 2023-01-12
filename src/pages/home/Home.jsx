@@ -28,7 +28,22 @@ export const Home = () => {
 
     return (
         <ValidaLogin>
-           
+           <Container>
+            <Grid container spacing={4}>
+              <Grid item xs={4}>
+              <Card>
+                <CardMedia/>
+                <CardContent>
+                  <Typography>Valor</Typography>
+                </CardContent>
+                <CardActions>
+                <Button variant="contained">Add</Button>  
+                </CardActions>
+              </Card>
+              </Grid>
+
+            </Grid>
+           </Container>
                 
          
         </ValidaLogin>
