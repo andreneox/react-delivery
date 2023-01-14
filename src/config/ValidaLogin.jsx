@@ -11,7 +11,7 @@ const navigate=useNavigate()
             alert('vc nao tem permissão para acessar essa rota')
             navigate('/login')
         }
-    })
+    },[login])
     return(
         <>
         {children}
