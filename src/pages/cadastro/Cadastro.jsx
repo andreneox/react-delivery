@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material"
 import { Box, Container } from "@mui/system"
 import { useState } from "react"
+import { NavBar } from "../../components/appbar/NavBar"
 import { api } from "../../config/Api"
 import { ValidaLogin } from "../../config/ValidaLogin"
 
@@ -14,10 +15,16 @@ export const Cadastro = ()=>{
     const Cadastrar =(event)=>{
       
         event.preventDefault()
-        api.post('/Cadastro', {
+        
+        api.post('Cadastro',{
             nome:nome,
             valor:valor,
             img:img
+       
+          },{
+            headers:{
+              'Content-Type': 'multipart/form-data'
+            }
           })
           .then(function (response) {
             console.log(response);
@@ -33,6 +40,7 @@ export const Cadastro = ()=>{
 
     return(
       <ValidaLogin>
+        <NavBar/>
         <Container >
 
        
@@ -54,7 +62,7 @@ export const Cadastro = ()=>{
 
             <TextField
             type='file'
-            onChange={(e)=>setImg()}
+            onChange={(e)=>setImg(e.target.files[0])}
             />
             <Button variant="contained" type="submit">Cadastrar</Button>
             </Box>

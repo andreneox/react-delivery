@@ -1,15 +1,18 @@
 import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useEffect, useState } from "react"
+import { NavBar } from "../../components/appbar/NavBar"
 import { api } from "../../config/Api"
 import { ValidaLogin } from "../../config/ValidaLogin"
-
+import { CartContext } from "../../contexts/cartcontext/Cart"
 
 
 
 export const Home = () => {
     const [url,setUrl]=useState()
     const [cardapio,setCardapio]=useState([])
+
+  
     useEffect(()=>{
         api.get('/Cardapio')
         .then(function (response) {
@@ -25,22 +28,29 @@ export const Home = () => {
         })
     },[setCardapio])
     
+  
 
     return (
         <ValidaLogin>
+          <NavBar/>
            <Container>
             <Grid container spacing={4}>
-              <Grid item xs={4}>
+              {cardapio.map((cardapio,index)=>(
+              <Grid item xs={4} key={index} >
               <Card>
-                <CardMedia/>
+                <Box width='100px'>
+                <img  width={'100%'} height='100%' src={url+cardapio.img}></img>
+                </Box>
                 <CardContent>
-                  <Typography>Valor</Typography>
+                <Typography>{cardapio.nome}</Typography>
+                  <Typography>Valor{cardapio.valor}</Typography>
                 </CardContent>
                 <CardActions>
                 <Button variant="contained">Add</Button>  
                 </CardActions>
               </Card>
               </Grid>
+               ))}
 
             </Grid>
            </Container>

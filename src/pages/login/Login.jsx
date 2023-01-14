@@ -14,7 +14,7 @@ export const Login = ()=>{
     const navigate=useNavigate()
     const handleClick =(event)=>{
         event.preventDefault()
-        api.post('/login', {
+        api.post('/Login', {
             nome:user,
             password:password
           })

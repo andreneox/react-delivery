@@ -5,6 +5,7 @@ export const api=axios.create({
     baseURL:'http://localhost:3005/',
    headers:{
     "authorization": localStorage.getItem('token')
+
    }
 })
 
