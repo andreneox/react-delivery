@@ -22,8 +22,9 @@ export const Login = ()=>{
             console.log(response);
             localStorage.setItem('token',response.data.token)
             localStorage.setItem('logado',true)
+          }).finally(function(){
+            console.log('s')
             navigate('/home')
-
           })
           .catch(function (error) {
            setError('login ou senha invalida')
