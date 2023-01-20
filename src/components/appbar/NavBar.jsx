@@ -12,8 +12,21 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 export const NavBar = () => {
   const [open, setOpen] = useState(false)
-  const { setCarrinho, carrinho, valor, valorTotal, removeProduto } = useContext(CarrinhoContext)
+  const { setCarrinho, carrinho, valor, valorTotal, removeProduto,FinalizaPedido } = useContext(CarrinhoContext)
   const navigate = useNavigate()
+  const pessoas=[
+    {
+      id:0,
+      nome:'joao',
+      
+    },
+    {
+
+    nome:'gio',
+    id:1
+  }
+  ]
+  console.log('pessoas',pessoas)
   const itensMenu = [
     {
       texto: 'home',
@@ -100,11 +113,34 @@ export const NavBar = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            Observação
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+         =
+
+      
+         <Box sx={{display:'flex',flexDirection:'column',gap:4}}>
+          <TextField
+          label='Rua'
+          />
+            <TextField
+          label='bairro'
+          />
+            <TextField
+          label='casa'
+          />
+            <TextField
+          label='telefone'
+          />
+          <TextField
+          label='Observação'
+          placeholder="ex: troco pra 50R$"
+          id="standard-multiline-flexible"
+          multiline
+          variant="filled"
+          />
+          <Button variant="contained" onClick={()=>FinalizaPedido(pessoas)}>Finalizar Pedido</Button>
+         </Box>
+          
         </Box>
       </Modal>
       <Container maxWidth='xl'>
