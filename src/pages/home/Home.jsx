@@ -1,80 +1,33 @@
-import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Button, Card, CardActions, CardContent, Container, Grid,  Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useContext, useEffect, useState } from "react"
-import { CarrinhoContext, CarrinhoProvider } from "../../components/appbar/Carrinho"
-
+import { useNavigate } from "react-router-dom"
+import { CarrinhoContext } from "../../components/appbar/Carrinho"
 import { NavBar } from "../../components/appbar/NavBar"
 import { api } from "../../config/Api"
 import { ValidaLogin } from "../../config/ValidaLogin"
-<<<<<<< HEAD
-
-=======
 // import { CartContext } from "../../contexts/cartcontext/Cart"
->>>>>>> 977e5665352d5524d4fdfbea0e114f58332c6b8d
 
 
 
 export const Home = () => {
-<<<<<<< HEAD
-    const [url,setUrl]=useState()
-    const [cardapio,setCardapio]=useState([])
-    const {setCarrinho,carrinho,adicionaProduto}=useContext(CarrinhoContext)
- 
-   
-
-    useEffect(()=>{
-        api.get('/Cardapio',{
-          headers:{
-            "authorization":localStorage.getItem('token')
-          }
-        })
-        .then(function (response) {
-          // manipula o sucesso da requisição
-          console.log(response);
-          setCardapio(response.data.data)
-          setUrl('http://localhost:3005/files/')
-        
-         
-        })
-        .catch(function (error) {
-          // manipula erros da requisição
-          console.error(error);
-        })
-    },[setCardapio])
-    
-  
-
-    return (
-   
-    
-
-  
-  
-        <ValidaLogin>
-          <NavBar/>
-           <Container sx={{padding:5}}>
-            <Grid container spacing={5}>
-              {cardapio.map((cardapio,index)=>(
-              <Grid item xs={4} sm={4} key={index} >
-              <Card sx={{display:'flex',flexDirection:'column', justifyContent:'center',alignItems:'center',padding:1}}>
-                <Box width='100px'  >
-                <img  width={'100%'} height='100%' src={url+cardapio.img}></img>
-=======
   const [url, setUrl] = useState('http://localhost:3005/files/')
   const [cardapio, setCardapio] = useState([])
-  const [carrinho, setCarrinho] = useState([])
+  const {adicionaProduto,removeProduto}=useContext(CarrinhoContext)
+  const navigate=useNavigate()
 
-  const adicionaCarrinho = (produto) => {
-    setCarrinho([...carrinho, produto])
-  }
-  
+
   useEffect(() => {
-    api.get('/Cardapio')
+    api.get('/Cardapio',{
+      headers: {
+        "authorization": localStorage.getItem('token')
+    }
+    })
       .then(function (response) {
         // manipula o sucesso da requisição
-        console.log(response);
+       
         setCardapio(response.data.data)
-        console.log("meu console", url)
+     
       })
       .catch(function (error) {
         // manipula erros da requisição
@@ -84,40 +37,31 @@ export const Home = () => {
 
 
 
+
   return (
     <ValidaLogin>
       <NavBar />
-      <Container>
-        <Grid container spacing={4}>
+      <Container maxWidth='xl'>
+        <Grid container spacing={1}>
           {cardapio.map((cardapio, index) => (
-            <Grid item xs={4} key={index} >
-              <Card>
-                <Box width='100px'>
+            <Grid item xs={4} key={index}>
+              <Card sx={{padding:3,display:{xl:'flex',md:'flex',sm:'flex',xs:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}}>
+                <Box width='100px' >
                   <img width={'100%'} height='100%' src={url + cardapio.img}></img>
->>>>>>> 977e5665352d5524d4fdfbea0e114f58332c6b8d
                 </Box>
-                <CardContent>
+                <CardContent sx={{width:'100%',height:'100%'}}>
                   <Typography>{cardapio.nome}</Typography>
-                  <Typography>Valor{cardapio.valor}</Typography>
+                  <Typography>Valor {cardapio.valor}R$</Typography>
                 
                 </CardContent>
                 <CardActions>
-<<<<<<< HEAD
-                <Button variant="contained" onClick={()=>adicionaProduto(cardapio)}  >Add</Button>  
-=======
-                  <Button variant="contained" onClick={() => adicionaCarrinho(cardapio)}>Add</Button>
->>>>>>> 977e5665352d5524d4fdfbea0e114f58332c6b8d
+                  <Button variant="contained"onClick={()=>adicionaProduto(cardapio)} >Adicionar Carrinho</Button>
+                  <Button variant="contained"onClick={()=>removeProduto(cardapio)} >Remover Carrinho</Button>
+                  
+                  
                 </CardActions>
               </Card>
             </Grid>
-<<<<<<< HEAD
-           </Container>
-                
-         
-        </ValidaLogin>
-        
-    )
-=======
           ))}
 
         </Grid>
@@ -126,5 +70,4 @@ export const Home = () => {
 
     </ValidaLogin>
   )
->>>>>>> 977e5665352d5524d4fdfbea0e114f58332c6b8d
 }
