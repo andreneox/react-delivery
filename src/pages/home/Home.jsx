@@ -13,7 +13,7 @@ import { ValidaLogin } from "../../config/ValidaLogin"
 export const Home = () => {
   const [url, setUrl] = useState('http://localhost:3005/files/')
   const [cardapio, setCardapio] = useState([])
-  const {adicionaProduto,removeProduto}=useContext(CarrinhoContext)
+  const {adicionaProduto,removeProduto,valor}=useContext(CarrinhoContext)
   const navigate=useNavigate()
 
 

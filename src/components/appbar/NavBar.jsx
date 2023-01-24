@@ -12,21 +12,17 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 export const NavBar = () => {
   const [open, setOpen] = useState(false)
-  const { setCarrinho, carrinho, valor, valorTotal, removeProduto,FinalizaPedido } = useContext(CarrinhoContext)
+  const { setCarrinho, carrinho, valor, valorTotal, removeProduto, FinalizaPedido } = useContext(CarrinhoContext)
   const navigate = useNavigate()
-  const pessoas=[
-    {
-      id:0,
-      nome:'joao',
-      
-    },
-    {
 
-    nome:'gio',
-    id:1
+  const pessoas =
+  {
+    id: 1,
+    nome: 'Giovanne',
+    obs: 'troco pra 50R$'
+
   }
-  ]
-  console.log('pessoas',pessoas)
+
   const itensMenu = [
     {
       texto: 'home',
@@ -37,26 +33,7 @@ export const NavBar = () => {
       to: '/cadastro'
     }
   ]
-  const ItensMenuCell = [
-    {
-      texto: 'home',
-      icon: <HomeIcon />,
-      to: '/home'
-    },
-    {
-      texto: 'pedido',
-      icon: <AssignmentIcon />,
-
-
-    }
-
-
-
-  ]
-
-  valorTotal()
-
-
+ 
   const EsvaziarCarrinho = () => {
     setCarrinho([])
   }
@@ -67,22 +44,20 @@ export const NavBar = () => {
     setOpen(true)
   }
 
-  const OpennModal =()=>{
+  const OpennModal = () => {
     setOpenModal(true)
     setOpen(false)
   }
-  useEffect(() => {
 
-  })
+  valorTotal()
   const Logout = () => {
     localStorage.removeItem('logado')
     localStorage.removeItem('token')
 
     navigate('/login')
 
-
   }
-  
+
   const [openModal, setOpenModal] = useState(false);
 
   const style = {
@@ -91,7 +66,7 @@ export const NavBar = () => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    backgroundColor:'white',
+    backgroundColor: 'white',
     border: '2px solid #000',
     boxShadow: 24,
     pt: 2,
@@ -103,11 +78,11 @@ export const NavBar = () => {
   return (
 
     <AppBar position="static">
-      
-      <Button onClick={(e)=>setOpenModal(true)}>Open modal</Button>
+
+      <Button onClick={(e) => setOpenModal(true)}>Open modal</Button>
       <Modal
         open={openModal}
-        onClose={(e)=>setOpenModal(false)}
+        onClose={(e) => setOpenModal(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -115,148 +90,76 @@ export const NavBar = () => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Observação
           </Typography>
-         =
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <TextField
+              label='Nome'
+            />
+            <TextField
+              label='Sobrenome'
+            />
+            <TextField
+              label='telefone'
+            />
+            <TextField
+              label='Rua'
+            />
+            <TextField
+              label='bairro'
+            />
+            <TextField
+              label='casa'
+            />
 
-      
-         <Box sx={{display:'flex',flexDirection:'column',gap:4}}>
-          <TextField
-          label='Rua'
-          />
             <TextField
-          label='bairro'
-          />
-            <TextField
-          label='casa'
-          />
-            <TextField
-          label='telefone'
-          />
-          <TextField
-          label='Observação'
-          placeholder="ex: troco pra 50R$"
-          id="standard-multiline-flexible"
-          multiline
-          variant="filled"
-          />
-          <Button variant="contained" onClick={()=>FinalizaPedido(pessoas)}>Finalizar Pedido</Button>
-         </Box>
-          
+              label='Observação'
+              placeholder="ex: troco pra 50R$"
+              id="standard-multiline-flexible"
+              multiline
+              variant="filled"
+            />
+            <Button variant="contained" onClick={()=>FinalizaPedido(pessoas)}>Finalizar Pedido</Button>
+          </Box>
         </Box>
       </Modal>
       <Container maxWidth='xl'>
-        
         <Toolbar disableGutters>
-          <Typography variant="h6" component="div" sx={{ display: { lg: 'flex', xs: 'none', flexGrow: 1 } }}>
-            Sistema de Delivery
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ display: { xs: 'flex', lg: 'none', justifyContent: 'center', alignItems: 'center', flexGrow: 1 } }}>
+          <Typography variant="h6" component="div">
             Sistema de Delivery
           </Typography>
 
-
-          <Box sx={{ display: { lg: 'flex', xs: 'none', flexGrow: 1, gap: 20 } }}>
+          <Box sx={{display:'flex',gap:20}}>
             {itensMenu.map((item) => (
               <Button key={item} sx={{ color: "white" }} href={item.to}>
                 {item.texto}
               </Button>
             ))}
           </Box>
-          <Drawer  variant="temporary" open={open} anchor='right' sx={{ display: { lg: 'flex', xs: 'none' } }} onClose={() => setOpen(false)}>
-
+          <Drawer variant="temporary" open={open} anchor='right' sx={{ display: { lg: 'flex', xs: 'none' } }} onClose={() => setOpen(false)}>
             <Typography variant="h4" sx={{ padding: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>PEDIDOS</Typography>
             <Box width={'100%'} flexDirection='column'>
-
-
-
-
               {carrinho.map((item, index) => (
                 <Box sx={{ px: 2, display: 'flex', mt: 2, justifyContent: 'center', alignContent: 'center', alignItems: 'center', gap: 5 }} >
                   <>
-
-                    <Typography key={index}>{item.nome}</Typography>
+                    <Typography key={index}>{item.id.nome}</Typography>
                     <Typography>quantidade:{item.qtd}</Typography>
-                    <Typography>valor:{item.valor}R$</Typography>
+                    <Typography>valor:{item.id.valor}R$</Typography>
                   </>
-
-
                 </Box>
               ))}
-
             </Box>
             <Box display={'flex'} justifyContent='center' mt={4} alignItems='center'>
               <Typography variant="h4">Valor total:{valor} R$</Typography>
             </Box>
             <Box display={'flex'} justifyContent='center' flexDirection={'column'} gap={2} mt={4} alignItems='center'>
               <Button variant="contained" onClick={EsvaziarCarrinho} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }} >Esvaziar carrinho</Button>
-              <Button variant="contained" onClick={OpennModal}  sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }} >Finalizar pedido</Button>
-              
+              <Button variant="contained" onClick={OpennModal} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }} >Finalizar pedido</Button>
             </Box>
-
-
           </Drawer>
-          <ShoppingBagIcon onClick={CartOpen} sx={{ display: { lg: 'flex', xs: 'none', cursor: 'pointer' } }}></ShoppingBagIcon>
+          <ShoppingBagIcon onClick={CartOpen} sx={{ cursor: 'pointer' }}></ShoppingBagIcon>
           <Typography variant="h6" sx={{ display: { lg: 'flex', xs: 'none' } }} color={"darkblue"}>{valor},00R$</Typography>
           <Button variant="contained" sx={{ display: { lg: 'flex', xs: 'none', ml: 10 } }} onClick={Logout}>Sair</Button>
-
         </Toolbar>
-
-
       </Container>
-
-
-
-
-
-      <Box bgcolor={'ButtonShadow'} sx={{ width: '100%', position: 'absolute', bottom: 0 }}>
-        <Container>
-          <Box sx={{ display: { xs: 'flex', lg: 'none', justifyContent: 'space-between' } }}>
-
-
-            <Typography variant="h6" color={'primary'}>Cardapio</Typography>
-            <ShoppingBagIcon color="primary" onClick={CartOpen} sx={{ cursor: 'pointer' }}></ShoppingBagIcon>
-            <Typography variant="h6" color={"darkblue"}>{valor},00R$</Typography>
-
-          </Box>
-          <Drawer open={open} anchor='bottom' sx={{ display: { xs: 'flex', lg: 'none' } }} onClose={() => setOpen(false)}>
-                 <Box sx={{display:'flex',width:'100vw',height:'100vh',justifyContent:'center',alignItems:'center'}}>
-
-      <Box sx={{border:3,width:'100px',height:'100px'}}>
-
-      </Box>
-      </Box>
-            <Typography variant="h4" sx={{ padding: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>PEDIDOS</Typography>
-            <Box width={'100%'} flexDirection='column'>
-
-
-
-
-              {carrinho.map((item, index) => (
-                <Box sx={{ px: 2, display: 'flex', mt: 2, justifyContent: 'center', alignContent: 'center', alignItems: 'center', gap: 5 }} >
-                  <>
-
-                    <Typography key={index}>{item.nome}</Typography>
-                    <Typography>quantidade:{item.qtd}</Typography>
-                    <Typography>valor:{item.valor}R$</Typography>
-                  </>
-
-
-                </Box>
-              ))}
-
-            </Box>
-            <Box display={'flex'} justifyContent='center' mt={4} alignItems='center'>
-              <Typography variant="h4">Valor total:{valor} R$</Typography>
-            </Box>
-            <Box display={'flex'} justifyContent='center' flexDirection={'column'} gap={2} mt={4} alignItems='center'>
-              <Button variant="contained" onClick={EsvaziarCarrinho} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }} >Esvaziar carrinho</Button>
-              <Button variant="contained" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }} >Finalizar pedido</Button>
-            </Box>
-
-
-          </Drawer>
-        </Container>
-      </Box>
-
 
     </AppBar>
 
