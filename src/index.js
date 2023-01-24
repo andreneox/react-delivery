@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 
 
 import App from './App';
-import { CarrinhoProvider } from './components/appbar/Carrinho';
+import { CarrinhoProvider } from './context/Carrinho';
+
 
 
 

@@ -22,7 +22,7 @@ export const Login = ()=>{
             console.log(response);
             localStorage.setItem('token',response.data.token)
             localStorage.setItem('logado',true)
-            navigate('/home')
+            navigate('/admin/home')
           })
           .catch(function (error) {
            setError('login ou senha invalida')
@@ -33,11 +33,8 @@ export const Login = ()=>{
      
         <Card>
             <Box width='400px' height='500px' display={'flex'} justifyContent='center' alignItems='center'>
-               
             <Box display='flex' flexDirection='column' width='70%' gap={4} component={'form'} onSubmit={handleClick}>
             <Typography variant="h6"> <Divider>Tela de Login</Divider> </Typography>
-            
-           
             <TextField
             label='user'
             type='text'

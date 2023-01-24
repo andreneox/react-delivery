@@ -2,7 +2,8 @@
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
 import { Cadastro } from "./pages/cadastro/Cadastro";
-import { Home } from "./pages/home/Home";
+import { HomeAdmin } from "./pages/home/HomeAdmin";
+
 import { Login } from "./pages/login/Login";
 
 
@@ -14,8 +15,8 @@ function App() {
 
      <BrowserRouter>
      <Routes>
-      <Route path="/login" element={<Login/>} />
-      <Route path="/home" element={<Home/>} />
+      <Route path="/" element={<Login/>} />
+      <Route path="/admin/home" element={<HomeAdmin/>} />
       <Route path="/cadastro" element={<Cadastro/>}/>
       <Route path="/pedido" element={<TelaPedido/>}/>
     

@@ -1,0 +1,11 @@
+.MenuLink{
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    
+}
+.MenuLink:hover{
+    background-color:#043a67ba;
+    transition:1s;
+    border-radius: 5px;
+}

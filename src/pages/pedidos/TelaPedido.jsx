@@ -1,19 +1,15 @@
-import { useState } from "react"
-import { useContext, useEffect } from "react"
-import { CarrinhoContext } from "../../components/appbar/Carrinho"
-
+import { AppBarAdmin } from "../../components/appbar/AppBarAdmin"
+import { ValidaLogin } from "../../config/ValidaLogin"
 
 
 export const TelaPedido=()=>{
 
     
-    const [pedidos]=useState((localStorage.getItem('pedido')))
-  useEffect(()=>{
- 
-   console.log("pedidos",pedidos)
- 
-  })
+  
     return(
+        <ValidaLogin>
+        <AppBarAdmin/>
+ 
         <div>
             <h1>Tela de pedidos</h1>
            
@@ -23,6 +19,6 @@ export const TelaPedido=()=>{
 
             </div>
         </div>
-         
+        </ValidaLogin>
     )
 }
