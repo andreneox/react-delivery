@@ -50,18 +50,21 @@ export const HomeAdmin = () => {
      <Container>
       <Grid container sx={{mt:'70px'}} spacing={2}>
         {cardapio.map((cardapios,index)=>(
-      <Grid  key={index} item xl={3} sm={4} lg={4} md={3} xs={6}>
+      <Grid  key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
       <Card sx={{display:'flex',flexDirection:'column',alignItems:'center',maxwidth:'350px',height:'300px'}}>
-        <Box sx={{width:'90%',height:'100%'}}>
+        <Box sx={{width:'90%',height:'450px'}}>
 
       <CardMedia
-      sx={{width:'100%',height:'100%',borderRadius:2}}
+      sx={{width:'100%',height:'100%',borderRadius:1}}
      image={url + cardapios.img}
       >
       </CardMedia>
       </Box>
       <CardContent>
       <Typography gutterBottom variant="h5" component="div">
+        {cardapios.nome}
+        </Typography>
+        <Typography  variant="h5" component="div">
         {cardapios.nome}
         </Typography>
       </CardContent>
