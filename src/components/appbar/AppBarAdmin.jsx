@@ -21,9 +21,11 @@ const pages=[
 
 export const AppBarAdmin=()=>{
     return(
-        <AppBar position="static">
-            <Container>
-                <Toolbar>
+     
+        <AppBar position="fixed">
+            <Container maxWidth='xl'>
+                <Toolbar disableGutters>
+             
                 LOGO
             <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',gap:10,width:'100%'}}>
        
@@ -32,14 +34,15 @@ export const AppBarAdmin=()=>{
         ))}
            
             </Box>
-            <Link className={style.MenuLink}>Sair</Link>
+       
+       <Link className={style.MenuLink}>Sair</Link>
+      
          
-            
-     
-          
-          
+       
                 </Toolbar>
-            </Container>
+                </Container>
+              
         </AppBar>
+        
     )
 }
