@@ -68,7 +68,7 @@ export const AppBarAdmin=()=>{
               id="menu-appbar"
               anchorOrigin={{
                 vertical: "top",
-                horizontal: "right"
+                horizontal: "center"
 
                 
               }}

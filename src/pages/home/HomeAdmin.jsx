@@ -42,7 +42,7 @@ export const HomeAdmin = () => {
   })
 
   const handleDelete = (cardapio) => {
-    api.get('/Deletar/'+cardapio, {
+    api.delete('Deletar/'+cardapio, {
       headers: {
         "authorization": localStorage.getItem('token')
       }
