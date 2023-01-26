@@ -41,6 +41,24 @@ export const HomeAdmin = () => {
       })
   })
 
+  const handleDelete = (cardapio) => {
+    api.get('/Deletar/'+cardapio, {
+      headers: {
+        "authorization": localStorage.getItem('token')
+      }
+    })
+      .then(function (response) {
+        // manipula o sucesso da requisição
+
+        console.log(response.data)
+
+      })
+      .catch(function (error) {
+        // manipula erros da requisição
+        console.error("erro",error);
+      })
+  console.log(cardapio)
+}
 
 
 
@@ -51,8 +69,8 @@ export const HomeAdmin = () => {
         <Grid container sx={{ mt: '70px' }} spacing={2}>
           {cardapio.map((cardapios, index) => (
             <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
-              <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '350px', height: '300px' }}>
-                <Box sx={{ width: '90%', height: '450px' }}>
+              <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>
+                <Box sx={{ width: '100%', height: '450px' }}>
 
                   <CardMedia
                     sx={{ width: '100%', height: '100%', borderRadius: 1 }}
@@ -69,8 +87,9 @@ export const HomeAdmin = () => {
                   </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
-                  <CardActions sx={{ display:{ xl:'flex', flexWrap: 'nowrap', justifyContent: 'center', width: '100%'}}}>
-                    <Button variant="contained" size="small">Remover</Button>
+
+                  <CardActions  sx={{display:{md:'flex',justifyContent:'center',flexFlow:'wrap',gap:1,width:'100%'}}}>
+                    <Button onClick={()=>handleDelete(cardapios.id)} variant="contained"  size="small">Remover</Button>
                     <Button variant="contained" size="small">Editar</Button>
                     <Button variant="contained" size="small">Pausar</Button>
 

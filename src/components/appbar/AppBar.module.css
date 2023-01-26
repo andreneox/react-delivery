@@ -4,6 +4,12 @@
     padding: 10px;
     
 }
+.MenuLinkCell{
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    
+}
 .MenuLink:hover{
     background-color:#043a67ba;
     transition:1s;
