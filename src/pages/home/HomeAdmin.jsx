@@ -12,6 +12,8 @@ import { AppBarAdmin } from "../../components/appbar/AppBarAdmin"
 import { api } from "../../config/Api"
 import { ValidaLogin } from "../../config/ValidaLogin"
 import Box from '@mui/material/Box';
+import BasicModal from "../../components/modal/BasicModal";
+import { TextField } from "@mui/material";
 
 
 
@@ -20,6 +22,11 @@ import Box from '@mui/material/Box';
 export const HomeAdmin = () => {
   const [url, setUrl] = useState('http://localhost:3005/files/')
   const [cardapio, setCardapio] = useState([])
+  const [modalOpen,setModalOpen]=useState(false)
+
+  const [nome, setNome] = useState()
+  const [valor, setValor] = useState()
+  const [img, setImg] = useState()
 
 
 
@@ -57,9 +64,33 @@ export const HomeAdmin = () => {
         // manipula erros da requisição
         console.error("erro",error);
       })
-  console.log(cardapio)
 }
+const handleEditar=(cardapio)=>{
+  setModalOpen(true)
+  api.put('Atualizar/'+cardapio,{
+    nome:nome,
+    valor:valor,
+    img:img,
+  },{
+    headers: {
+      "authorization": localStorage.getItem('token'),
+      'Content-Type': 'multipart/form-data'
+    }
+   
+  })
+    .then(function (response) {
+      
+      console.log(response.data)
+      console.log('alterado com sucesso')
 
+    })
+    .catch(function (error) {
+      // manipula erros da requisição
+      console.error("erro",error);
+    })
+    
+
+}
 
 
   return (
@@ -90,15 +121,37 @@ export const HomeAdmin = () => {
 
                   <CardActions  sx={{display:{md:'flex',justifyContent:'center',flexFlow:'wrap',gap:1,width:'100%'}}}>
                     <Button onClick={()=>handleDelete(cardapios.id)} variant="contained"  size="small">Remover</Button>
-                    <Button variant="contained" size="small">Editar</Button>
+                    <Button onClick={()=>setModalOpen(true)} variant="contained" size="small">Editar</Button>
                     <Button variant="contained" size="small">Pausar</Button>
-
+                    <BasicModal isOpen={modalOpen} setIsOpen={()=>setModalOpen(false)}>
+          <Box sx={{display:'flex',flexDirection:'column',gap:3}}>
+            <TextField
+            label='Nome'
+            type='text'
+            onChange={(e)=>setNome(e.target.value)}
+          
+            />
+            <TextField
+            label='Valor'
+            type='float'
+            onChange={(e)=>setValor(e.target.value)}
+            />
+            <TextField
+            type='file'
+            onChange={(e)=>setImg(e.target.files[0])}
+            />
+            <Button onClick={()=>handleEditar(cardapios.id)}>Salvar</Button>
+ </Box>
+        </BasicModal>
                   </CardActions>
                 </Box>
               </Card>
             </Grid>
+            
           ))}
         </Grid>
+   
+
       </Container>
     </ValidaLogin>
   )
