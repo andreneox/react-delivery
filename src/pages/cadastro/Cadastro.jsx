@@ -38,7 +38,7 @@ export const Cadastro = () => {
   return (
     <ValidaLogin>
       <AppBarAdmin/>
-      <Container >
+      <Container>
         <Box display={'flex'} flexDirection='column' alignItems={'center'} pb={4} justifyContent='center' >
           <Typography variant="h1">Tela de cadastro</Typography>
           <Box display='flex' width={'90%'} justifyContent='center' flexDirection={'column'} gap={5} component='form' onSubmit={Cadastrar} >

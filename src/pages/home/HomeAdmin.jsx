@@ -125,7 +125,7 @@ const handleEditar=(cardapio)=>{
                     <Button onClick={()=>setModalOpen(true)} variant="contained" size="small">Editar</Button>
                     <Button variant="contained" size="small">Pausar</Button>
                     <BasicModal isOpen={modalOpen} setIsOpen={()=>setModalOpen(false)}>
-          <Box  sx={{display:'flex',flexDirection:'column',gap:3}}>
+          <Box  sx={{display:'flex',width:'100%',flexDirection:'column',gap:3}}>
             <TextField
             label='Nome'
             type='text'
