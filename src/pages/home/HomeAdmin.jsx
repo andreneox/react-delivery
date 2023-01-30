@@ -27,11 +27,14 @@ export const HomeAdmin = () => {
   const [nome, setNome] = useState()
   const [valor, setValor] = useState()
   const [img, setImg] = useState()
-  const [cardapioEdit,setCardapioEdit]=useState({})
+  const [itemDelete,setItemDelete]=useState()
+  const [itemEditar,setItemEditar]=useState({})
+
 
 
 
   useEffect(() => {
+    
     api.get('/Cardapio', {
       headers: {
         "authorization": localStorage.getItem('token')
@@ -47,73 +50,75 @@ export const HomeAdmin = () => {
         // manipula erros da requisição
         console.error(error);
       })
-  })
-
-  const handleDelete = (cardapio) => {
-    api.delete('Deletar/'+cardapio, {
-      headers: {
+  },[cardapio])
+  
+  const PegarItemExcluir =(item)=>{
+    setModalExcluir(true)
+    api.get('ListarItem/'+item,{
+      headers:{
         "authorization": localStorage.getItem('token')
       }
     })
-      .then(function (response) {
-        // manipula o sucesso da requisição
+    .then(function(response){
+      setItemDelete(response.data.data.id)
+      console.log(response.data.data.id)
+    })
+    .catch(function(error){
+      console.error(error)
+    })
+  }
 
-        console.log(response.data)
-
-      })
-      .catch(function (error) {
-        // manipula erros da requisição
-        console.error("erro",error);
-      })
-}
-
-const handleEditar=(cardapio)=>{
-
-  api.put('Atualizar/'+cardapio,{
-    nome:nome,
-    valor:valor,
-    img:img,
-  },{
-    headers: {
-      "authorization": localStorage.getItem('token'),
-      'Content-Type': 'multipart/form-data'
-    }
-   
-  })
-    .then(function (response) {
+  const ExcluirItem =(item)=>{
+    setModalExcluir(false)
+    api.delete('/Deletar/'+item,{
+      headers:{
+        "authorization": localStorage.getItem('token')
+      }
+    }).then(function(response){
       
       console.log(response.data)
-      console.log('alterado com sucesso')
+    }).catch(function(error){
+      console.error(error)
+    })
+  }
 
-    })
-    .catch(function (error) {
-      // manipula erros da requisição
-      console.error("erro",error);
-    })
-      
-}
-const handleItem =(cardapio)=>{
-  setModalEditar(true)
-  api.get('ListarItem/'+cardapio,{
-  
-    headers: {
-      "authorization": localStorage.getItem('token')
+  const PegarItemEditar =(item)=>{
     
-    }
-   
-  })
-    .then(function (response) {
-      setCardapioEdit(response.data.data)
+    api.get('ListarItem/'+item,{
+      headers:{
+        "authorization": localStorage.getItem('token')
+      }
+    })
+    .then(function(response){
+      setItemEditar(response.data.data)
       console.log(response.data.data.id)
-     
+      setModalEditar(true)
+    })
+    .catch(function(error){
+      console.error(error)
+    })
+  }
 
+  const EditarItem=(item)=>{
+    api.put('Atualizar/'+item,{
+      nome:nome,
+      valor:valor,
+      img:img
+    },{
+      headers:{
+        "authorization":localStorage.getItem('token'),
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function(response){
+      console.log(response)
+      setModalEditar(false)
+    }).catch(function(error){
+      console.error(error)
+      alert('vc tem que colocar uma imagem')
     })
-    .catch(function (error) {
-      // manipula erros da requisição
-      console.error("erro",error);
-    })
-      
-}
+  }
+
+
 
 
 
@@ -140,54 +145,60 @@ const handleItem =(cardapio)=>{
                     {cardapios.nome}
                   </Typography>
                   <Typography variant="h8" fontWeight='bold' component="div">
-                    {cardapios.valor}R$
+                  R$ {cardapios.valor}
                   </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
-
                   <CardActions  sx={{display:{md:'flex',justifyContent:'center',flexFlow:'wrap',gap:1,width:'100%'}}}>
-                    <Button onClick={()=>setModalExcluir(true)} variant="contained"  size="small">Remover</Button>
-                    <Button onClick={()=>handleItem(cardapios.id)} variant="contained" size="small">Editar</Button>
+
+                    <Button onClick={()=>PegarItemExcluir(cardapios.id)} variant="contained"  size="small">Remover</Button>
+
+                    <Button  variant="contained" onClick={()=>PegarItemEditar(cardapios.id)} size="small">Editar</Button>
+
                     <Button variant="contained" size="small">Pausar</Button>
-            <BasicModal isOpen={modalExcluir} setIsOpen={()=>setModalExcluir(false)}>
-            <Typography>Você realmente deseja excluir esse item?</Typography>
-            <Button variant="contained" onClick={()=>handleDelete(cardapios.id)}>Excluir</Button>
-            </BasicModal>
-        
                   </CardActions>
                 </Box>
               </Card>
-
-          <BasicModal isOpen={modalEditar} setIsOpen={()=>setModalEditar(false)}>
-          <Box  sx={{display:'flex',width:'100%',flexDirection:'column',gap:3}}>
-            <TextField
-            label='Nome'
-            type='text'
-            value={cardapioEdit.nome}
-            
-           
-            onChange={(e)=>setNome(e.target.value)}
-          
-            />
-            <TextField
-            label='Valor'
-            type='float'
-            onChange={(e)=>setValor(e.target.value)}
-            />
-            <TextField
-            type='file'
-            onChange={(e)=>setImg(e.target.files[0])}
-            />
-            <Button onClick={()=>handleEditar(cardapioEdit.id)}>Salvar</Button>
-           
- </Box>
-        </BasicModal>
             </Grid>
             
             
           ))}
         </Grid>
-   
+            
+            <BasicModal isOpen={modalExcluir} setIsOpen={()=>setModalExcluir(false)}>
+            <Typography>Você tem certeza que dejesa excluir esse produto ?</Typography>
+            <Button color="error"variant="contained" onClick={()=>ExcluirItem(itemDelete)}>Excluir</Button>
+
+            <Button color="success" onClick={()=>setModalExcluir(false)} variant="contained">Cancelar</Button>
+            </BasicModal>
+
+
+            <BasicModal isOpen={modalEditar} setIsOpen={()=>setModalEditar(false)}>
+             <TextField
+             label='nome'
+           
+            defaultValue={itemEditar.nome}
+             type='text'
+             onChange={(e) => setNome(e.target.value)}
+            
+
+             /> 
+
+              <TextField
+             label='valor'
+             type='text'
+             defaultValue={itemEditar.valor}
+             onChange={(e) => setValor(e.target.value)}
+             /> 
+
+            <TextField
+             type='file'
+             required={true}
+             onChange={(e) => setImg(e.target.files[0])}
+             /> 
+
+             <Button variant='contained' onClick={()=>EditarItem(itemEditar.id)}>Salvar</Button>
+            </BasicModal>
 
       </Container>
 
