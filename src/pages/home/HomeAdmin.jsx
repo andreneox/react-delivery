@@ -14,6 +14,7 @@ import { ValidaLogin } from "../../config/ValidaLogin"
 import Box from '@mui/material/Box';
 import BasicModal from "../../components/modal/BasicModal";
 import { TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -29,7 +30,7 @@ export const HomeAdmin = () => {
   const [img, setImg] = useState()
   const [itemDelete,setItemDelete]=useState()
   const [itemEditar,setItemEditar]=useState({})
-
+  const navigate =useNavigate()
 
 
 
@@ -84,13 +85,15 @@ export const HomeAdmin = () => {
 
   const PegarItemEditar =(item)=>{
     
-    api.get('ListarItem/'+item,{
+    api.get('ListarItem/'+item,  
+  {
       headers:{
         "authorization": localStorage.getItem('token')
       }
     })
     .then(function(response){
       setItemEditar(response.data.data)
+     
       console.log(response.data.data.id)
       setModalEditar(true)
     })
@@ -112,8 +115,12 @@ export const HomeAdmin = () => {
     }).then(function(response){
       console.log(response)
       setModalEditar(false)
+      setNome()
+      setValor()
+      setImg()
+      
     }).catch(function(error){
-      console.error(error)
+    
       alert('vc tem que colocar uma imagem')
     })
   }
@@ -193,7 +200,6 @@ export const HomeAdmin = () => {
 
             <TextField
              type='file'
-             required={true}
              onChange={(e) => setImg(e.target.files[0])}
              /> 
 
