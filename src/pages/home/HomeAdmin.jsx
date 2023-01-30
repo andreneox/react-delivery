@@ -23,10 +23,10 @@ export const HomeAdmin = () => {
   const [url, setUrl] = useState('http://localhost:3005/files/')
   const [cardapio, setCardapio] = useState([])
   const [modalOpen,setModalOpen]=useState(false)
-
   const [nome, setNome] = useState()
   const [valor, setValor] = useState()
   const [img, setImg] = useState()
+  const [cardapioEdit,setCardapioEdit]=useState({})
 
 
 
@@ -65,9 +65,9 @@ export const HomeAdmin = () => {
         console.error("erro",error);
       })
 }
+
 const handleEditar=(cardapio)=>{
-  console.log(cardapio)
-  
+
   api.put('Atualizar/'+cardapio,{
     nome:nome,
     valor:valor,
@@ -89,9 +89,33 @@ const handleEditar=(cardapio)=>{
       // manipula erros da requisição
       console.error("erro",error);
     })
-    
-   
+      
 }
+const handleItem =(cardapio)=>{
+  setModalOpen(true)
+  api.get('ListarItem/'+cardapio,{
+  
+    headers: {
+      "authorization": localStorage.getItem('token')
+    
+    }
+   
+  })
+    .then(function (response) {
+      setCardapioEdit(response.data.data.id)
+      console.log(response.data.data.id)
+     
+
+    })
+    .catch(function (error) {
+      // manipula erros da requisição
+      console.error("erro",error);
+    })
+      
+}
+
+
+
 
 
   return (
@@ -122,13 +146,20 @@ const handleEditar=(cardapio)=>{
 
                   <CardActions  sx={{display:{md:'flex',justifyContent:'center',flexFlow:'wrap',gap:1,width:'100%'}}}>
                     <Button onClick={()=>handleDelete(cardapios.id)} variant="contained"  size="small">Remover</Button>
-                    <Button onClick={()=>setModalOpen(true)} variant="contained" size="small">Editar</Button>
+                    <Button onClick={()=>handleItem(cardapios.id)} variant="contained" size="small">Editar</Button>
                     <Button variant="contained" size="small">Pausar</Button>
-                    <BasicModal isOpen={modalOpen} setIsOpen={()=>setModalOpen(false)}>
+
+        
+                  </CardActions>
+                </Box>
+              </Card>
+              <BasicModal isOpen={modalOpen} setIsOpen={()=>setModalOpen(false)}>
           <Box  sx={{display:'flex',width:'100%',flexDirection:'column',gap:3}}>
             <TextField
             label='Nome'
             type='text'
+            
+           
             onChange={(e)=>setNome(e.target.value)}
           
             />
@@ -141,19 +172,21 @@ const handleEditar=(cardapio)=>{
             type='file'
             onChange={(e)=>setImg(e.target.files[0])}
             />
-            <Button onClick={()=>handleEditar(cardapios.id)}>Salvar</Button>
+            <Button onClick={()=>handleEditar(cardapioEdit)}>Salvar</Button>
+           
  </Box>
         </BasicModal>
-                  </CardActions>
-                </Box>
-              </Card>
             </Grid>
+            
             
           ))}
         </Grid>
    
 
       </Container>
+
+    
+
     </ValidaLogin>
   )
 }
