@@ -22,7 +22,8 @@ import { TextField } from "@mui/material";
 export const HomeAdmin = () => {
   const [url, setUrl] = useState('http://localhost:3005/files/')
   const [cardapio, setCardapio] = useState([])
-  const [modalOpen,setModalOpen]=useState(false)
+  const [modalEditar,setModalEditar]=useState(false)
+  const [modalExcluir,setModalExcluir]=useState(false)
   const [nome, setNome] = useState()
   const [valor, setValor] = useState()
   const [img, setImg] = useState()
@@ -92,7 +93,7 @@ const handleEditar=(cardapio)=>{
       
 }
 const handleItem =(cardapio)=>{
-  setModalOpen(true)
+  setModalEditar(true)
   api.get('ListarItem/'+cardapio,{
   
     headers: {
@@ -102,7 +103,7 @@ const handleItem =(cardapio)=>{
    
   })
     .then(function (response) {
-      setCardapioEdit(response.data.data.id)
+      setCardapioEdit(response.data.data)
       console.log(response.data.data.id)
      
 
@@ -145,19 +146,24 @@ const handleItem =(cardapio)=>{
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
 
                   <CardActions  sx={{display:{md:'flex',justifyContent:'center',flexFlow:'wrap',gap:1,width:'100%'}}}>
-                    <Button onClick={()=>handleDelete(cardapios.id)} variant="contained"  size="small">Remover</Button>
+                    <Button onClick={()=>setModalExcluir(true)} variant="contained"  size="small">Remover</Button>
                     <Button onClick={()=>handleItem(cardapios.id)} variant="contained" size="small">Editar</Button>
                     <Button variant="contained" size="small">Pausar</Button>
-
+            <BasicModal isOpen={modalExcluir} setIsOpen={()=>setModalExcluir(false)}>
+            <Typography>Você realmente deseja excluir esse item?</Typography>
+            <Button variant="contained" onClick={()=>handleDelete(cardapios.id)}>Excluir</Button>
+            </BasicModal>
         
                   </CardActions>
                 </Box>
               </Card>
-              <BasicModal isOpen={modalOpen} setIsOpen={()=>setModalOpen(false)}>
+
+          <BasicModal isOpen={modalEditar} setIsOpen={()=>setModalEditar(false)}>
           <Box  sx={{display:'flex',width:'100%',flexDirection:'column',gap:3}}>
             <TextField
             label='Nome'
             type='text'
+            value={cardapioEdit.nome}
             
            
             onChange={(e)=>setNome(e.target.value)}
@@ -172,7 +178,7 @@ const handleItem =(cardapio)=>{
             type='file'
             onChange={(e)=>setImg(e.target.files[0])}
             />
-            <Button onClick={()=>handleEditar(cardapioEdit)}>Salvar</Button>
+            <Button onClick={()=>handleEditar(cardapioEdit.id)}>Salvar</Button>
            
  </Box>
         </BasicModal>
