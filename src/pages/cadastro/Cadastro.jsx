@@ -24,13 +24,13 @@ export const Cadastro = () => {
       }
     })
       .then(function (response) {
+        
         console.log(response);
 
 
       })
       .catch(function (error) {
-        console.log("error axios", error)
-        console.log("minha variavel", img)
+      alert('nome do produto já existe!')
       });
   }
 

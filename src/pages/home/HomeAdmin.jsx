@@ -43,7 +43,7 @@ export const HomeAdmin = () => {
     })
       .then(function (response) {
         // manipula o sucesso da requisição
-
+       
         setCardapio(response.data.data)
 
       })
@@ -51,7 +51,7 @@ export const HomeAdmin = () => {
         // manipula erros da requisição
         console.error(error);
       })
-  },[cardapio])
+  },[setCardapio])
   
   const PegarItemExcluir =(item)=>{
     setModalExcluir(true)
@@ -160,7 +160,7 @@ export const HomeAdmin = () => {
 
                     <Button onClick={()=>PegarItemExcluir(cardapios.id)} variant="contained"  size="small">Remover</Button>
 
-                    <Button  variant="contained" onClick={()=>PegarItemEditar(cardapios.id)} size="small">Editar</Button>
+                    <Button  variant="contained"  onClick={()=>PegarItemEditar(cardapios.id)} size="small">Editar</Button>
 
                     <Button variant="contained" size="small">Pausar</Button>
                   </CardActions>
