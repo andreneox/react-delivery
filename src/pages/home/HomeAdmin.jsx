@@ -27,9 +27,11 @@ export const HomeAdmin = () => {
   const [modalExcluir,setModalExcluir]=useState(false)
   const [nome, setNome] = useState()
   const [valor, setValor] = useState()
+  const [status,setStatus]=useState()
   const [img, setImg] = useState()
   const [itemDelete,setItemDelete]=useState()
   const [itemEditar,setItemEditar]=useState({})
+ 
   const navigate =useNavigate()
 
 
@@ -42,17 +44,28 @@ export const HomeAdmin = () => {
       }
     })
       .then(function (response) {
-        // manipula o sucesso da requisição
-       
+        // manipula o sucesso da 
+
+        console.log('response',response.data.data)
+        
         setCardapio(response.data.data)
+
+      
 
       })
       .catch(function (error) {
         // manipula erros da requisição
         console.error(error);
       })
+      
   },[setCardapio])
+
+
+
+
+
   
+
   const PegarItemExcluir =(item)=>{
     setModalExcluir(true)
     api.get('ListarItem/'+item,{
@@ -84,7 +97,6 @@ export const HomeAdmin = () => {
   }
 
   const PegarItemEditar =(item)=>{
-    
     api.get('ListarItem/'+item,  
   {
       headers:{
@@ -106,7 +118,8 @@ export const HomeAdmin = () => {
     api.put('Atualizar/'+item,{
       nome:nome,
       valor:valor,
-      img:img
+      img:img,
+      status:status
     },{
       headers:{
         "authorization":localStorage.getItem('token'),
@@ -118,16 +131,17 @@ export const HomeAdmin = () => {
       setNome()
       setValor()
       setImg()
+      setStatus()
       
     }).catch(function(error){
     
-      alert('vc tem que colocar uma imagem')
+      console.error(error)
     })
   }
 
 
 
-
+const cardapioFiltrado = cardapio.filter((cardapio)=>cardapio.status!='inativo')
 
 
 
@@ -136,8 +150,10 @@ export const HomeAdmin = () => {
       <AppBarAdmin />
       <Container>
         <Grid container sx={{ mt: '70px' }} spacing={2}>
-          {cardapio.map((cardapios, index) => (
+          
+          {cardapioFiltrado.map((cardapios,index) => (
             <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
+            
               <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>
                 <Box sx={{ width: '100%', height: '450px' }}>
 
@@ -196,6 +212,11 @@ export const HomeAdmin = () => {
              type='text'
              defaultValue={itemEditar.valor}
              onChange={(e) => setValor(e.target.value)}
+             /> 
+              <TextField
+             label='status'
+             type='text'
+             onChange={(e) => setStatus(e.target.value)}
              /> 
 
             <TextField
