@@ -10,6 +10,7 @@ export const CarrinhoProvider = ({ children }) => {
   const [carrinho, setCarrinho] = useState([])
   const [valor, setValor] = useState([])
   const [pedido, setPedido] = useState([])
+  const [openDrawer,setOpenDrawer]=useState(false)
 
 
 
@@ -25,6 +26,8 @@ export const CarrinhoProvider = ({ children }) => {
     }
     console.log(copyProductsCart)
     setCarrinho(copyProductsCart)
+  
+    console.log(carrinho)
 
 
   }
@@ -35,7 +38,7 @@ export const CarrinhoProvider = ({ children }) => {
       soma += produto.id.valor * produto.qtd
     })
     setValor(soma)
-
+   
   }
   const removeProduto = (pedido) => {
     const copyProductsCart = [...carrinho];
@@ -64,7 +67,7 @@ export const CarrinhoProvider = ({ children }) => {
 
 
   return (
-    <CarrinhoContext.Provider value={{ adicionaProduto, carrinho, setCarrinho, valor, valorTotal, removeProduto, FinalizaPedido,pedido}}>
+    <CarrinhoContext.Provider value={{ adicionaProduto, carrinho, setCarrinho, valor, valorTotal, removeProduto, FinalizaPedido,pedido,openDrawer,setOpenDrawer}}>
       {children}
     </CarrinhoContext.Provider>
   )

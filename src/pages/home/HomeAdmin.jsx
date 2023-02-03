@@ -151,7 +151,7 @@ const cardapioFiltrado = cardapio.filter((cardapio)=>cardapio.status!='inativo')
       <Container>
         <Grid container sx={{ mt: '70px' }} spacing={2}>
           
-          {cardapioFiltrado.map((cardapios,index) => (
+          {cardapio.map((cardapios,index) => (
             <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
             
               <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>

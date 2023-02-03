@@ -1,8 +1,10 @@
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material"
 import { useState } from "react"
+import { useContext } from "react"
 import { useEffect } from "react"
 import { AppBarCliente } from "../../components/appbar/AppBarCliente"
 import { api } from "../../config/Api"
+import { CarrinhoContext } from "../../context/Carrinho"
 
 
 
@@ -10,8 +12,10 @@ import { api } from "../../config/Api"
 export const HomeCliente =()=>{
     const [cardapio, setCardapio] = useState([])
     const [url, setUrl] = useState('http://localhost:3005/files/')
-    useEffect(() => {
+    const {adicionaProduto,valorTotal}=useContext(CarrinhoContext)
     
+    useEffect(() => {
+      valorTotal()
         api.get('/Cardapio', {
           headers: {
             "authorization": localStorage.getItem('token')
@@ -27,7 +31,10 @@ export const HomeCliente =()=>{
             // manipula erros da requisição
             console.error(error);
           })
-      },[])
+      },[setCardapio])
+
+
+      const cardapioFilter = cardapio.filter(cardapio=> cardapio.status !='inativo');
 
     return(
         <>
@@ -35,7 +42,7 @@ export const HomeCliente =()=>{
     <AppBarCliente/>
     <Container maxWidth='xl'>
     <Grid container sx={{ mt: '70px' }} spacing={2}>
-      {cardapio.map((cardapios, index) => (
+      {cardapioFilter.map((cardapios, index) => (
         <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
           <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>
             <Box sx={{ width: '100%', height: '450px' }}>
@@ -57,7 +64,7 @@ export const HomeCliente =()=>{
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
               <CardActions  sx={{display:{md:'flex',justifyContent:'center',flexFlow:'wrap',gap:1,width:'100%'}}}>
 
-              <Button variant="contained">Add</Button>
+              <Button variant="contained" onClick={()=>adicionaProduto(cardapios)}>Adicionar</Button>
               </CardActions>
             </Box>
           </Card>
