@@ -13,8 +13,9 @@ import { api } from "../../config/Api"
 import { ValidaLogin } from "../../config/ValidaLogin"
 import Box from '@mui/material/Box';
 import BasicModal from "../../components/modal/BasicModal";
-import { TextField } from "@mui/material";
+import { FormControlLabel, Switch, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Label } from "@mui/icons-material";
 
 
 
@@ -31,7 +32,7 @@ export const HomeAdmin = () => {
   const [img, setImg] = useState()
   const [itemDelete,setItemDelete]=useState()
   const [itemEditar,setItemEditar]=useState({})
- 
+
   const navigate =useNavigate()
 
 
@@ -139,9 +140,58 @@ export const HomeAdmin = () => {
     })
   }
 
+  const PausarItem=(item)=>{
+   
+    api.put('Atualizar/'+item,{
+     
+      status:'inativo'
+    },{
+      headers:{
+        "authorization":localStorage.getItem('token'),
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function(response){
+      console.log(response)
+      setModalEditar(false)
+      setNome()
+      setValor()
+      setImg()
+      setStatus()
+      
+    }).catch(function(error){
+    
+      console.error(error)
+    })
+  }
+
+  const AtivarItem=(item)=>{
+   
+    api.put('Atualizar/'+item,{
+     
+      status:'ativo'
+    },{
+      headers:{
+        "authorization":localStorage.getItem('token'),
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function(response){
+      console.log(response)
+      setModalEditar(false)
+      setNome()
+      setValor()
+      setImg()
+      setStatus()
+      
+    }).catch(function(error){
+    
+      console.error(error)
+    })
+  }
 
 
-const cardapioFiltrado = cardapio.filter((cardapio)=>cardapio.status!='inativo')
+
+
+
 
 
 
@@ -177,9 +227,15 @@ const cardapioFiltrado = cardapio.filter((cardapio)=>cardapio.status!='inativo')
                     <Button onClick={()=>PegarItemExcluir(cardapios.id)} variant="contained"  size="small">Remover</Button>
 
                     <Button  variant="contained"  onClick={()=>PegarItemEditar(cardapios.id)} size="small">Editar</Button>
-
-                    <Button variant="contained" size="small">Pausar</Button>
+                
+              
                   </CardActions>
+                </Box>
+               
+                <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',gap:1}}>
+               <Button variant="contained" color="warning" onClick={()=>PausarItem(cardapios.id)} >Pausar Item</Button>
+               <Button variant="contained" color="success" onClick={()=>AtivarItem(cardapios.id)}>Ativar Item</Button>
+              
                 </Box>
               </Card>
             </Grid>

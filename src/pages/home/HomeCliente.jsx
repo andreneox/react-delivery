@@ -15,7 +15,7 @@ export const HomeCliente =()=>{
     const {adicionaProduto,valorTotal}=useContext(CarrinhoContext)
     
     useEffect(() => {
-      valorTotal()
+     
         api.get('/Cardapio', {
           headers: {
             "authorization": localStorage.getItem('token')
