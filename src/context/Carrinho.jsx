@@ -56,7 +56,7 @@ export const CarrinhoProvider = ({ children }) => {
    const copyPedido=[...pedido]
    const item=copyPedido.find((pedidos)=>pedidos.id ===dados)
     if(!item){
-      copyPedido.push({id:dados,lanche:carrinho})
+      copyPedido.push({info:dados,lanche:carrinho})
    
     }
     setPedido(copyPedido)
@@ -67,7 +67,7 @@ export const CarrinhoProvider = ({ children }) => {
 
 
   return (
-    <CarrinhoContext.Provider value={{ adicionaProduto, carrinho, setCarrinho, valor, valorTotal, removeProduto, FinalizaPedido,pedido,openDrawer,setOpenDrawer}}>
+    <CarrinhoContext.Provider value={{ pedido,adicionaProduto, carrinho, setCarrinho, valor, valorTotal, removeProduto, FinalizaPedido,pedido,openDrawer,setOpenDrawer}}>
       {children}
     </CarrinhoContext.Provider>
   )

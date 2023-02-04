@@ -232,7 +232,7 @@ export const HomeAdmin = () => {
                   </CardActions>
                 </Box>
                
-                <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',gap:1}}>
+                <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',gap:1,pb:2}}>
                <Button variant="contained" color="warning" onClick={()=>PausarItem(cardapios.id)} >Pausar Item</Button>
                <Button variant="contained" color="success" onClick={()=>AtivarItem(cardapios.id)}>Ativar Item</Button>
               

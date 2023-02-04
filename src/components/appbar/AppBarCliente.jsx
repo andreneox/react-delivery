@@ -1,9 +1,10 @@
-import { AppBar, Button, Divider, Drawer, IconButton, Toolbar, Typography } from "@mui/material"
+import { AppBar, Button, Divider, Drawer, IconButton, MenuItem, TextareaAutosize, TextField, Toolbar, Typography } from "@mui/material"
 import { Box, Container } from "@mui/system"
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { useContext, useState } from "react";
 import { CarrinhoContext } from "../../context/Carrinho";
-
+import BasicModal from "../modal/BasicModal";
+import Textarea from '@mui/joy/Textarea';
 
 
 
@@ -11,13 +12,41 @@ import { CarrinhoContext } from "../../context/Carrinho";
 export const AppBarCliente = ()=>{
     
   
-    const {carrinho,valor,openDrawer,setOpenDrawer,valorTotal}=useContext(CarrinhoContext)
-
+    const {carrinho,valor,openDrawer,setOpenDrawer,valorTotal,pedido,FinalizaPedido}=useContext(CarrinhoContext)
+    const [openFinalizaCompra,setOpenFinalizaCompra]=useState(false)
+   const [nome,setNome]=useState()
+   const [rua,setRua]=useState()
+  const descricao=(JSON.stringify(pedido,null,4))
     const openCart=()=>{
     setOpenDrawer(true)
    
     }
     valorTotal()
+
+    const finalizaPedido=()=>{
+        setOpenFinalizaCompra(true)
+      
+    }
+
+    const formaDePagamento =[
+        {
+       
+        label:'Dinheiro'
+
+    },{
+
+       
+        label:'Cartão'
+    }
+]
+console.log("desc",descricao)
+const informacoes=[{
+  nome:'Giovanne',
+  rua:'antonio luiz pereira'
+}]
+
+
+
     
     return(
         <Box>
@@ -66,14 +95,74 @@ export const AppBarCliente = ()=>{
                 </Box>
                   ))}
                   <Typography sx={{mt:20}}>Valor total: R$ {valor}</Typography>
-                <Button variant="contained" sx={{mt:'50px'}}>Finalizar Comprra</Button>
+                <Button variant="contained" sx={{mt:'50px'}} onClick={finalizaPedido} >Finalizar Comprra</Button>
                 </Box>
                 </Drawer>  
 
                 </Container>
+                
             </Toolbar>
-
+           
+             
         </AppBar>
+        <BasicModal isOpen={openFinalizaCompra} setIsOpen={()=>setOpenFinalizaCompra(false)}>
+            <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',gap:3,width:'100%'}}>
+
+       <Typography variant="h5">Informações da Entrega</Typography>
+        <TextField
+        label='Nome'
+        type={'text'}
+        onChange={(e)=>setNome(e.target.value)}
+        />
+    
+         <TextField
+        label='Telefone'
+        type={'text'}
+        />
+        <TextField
+        label='Cep'
+        type={'text'}
+        />
+        <TextField
+        label='rua'
+        type={'text'}
+        onChange={(e)=>setRua(e.target.value)}
+        />
+        <TextField
+        label='casa'
+        type={'text'}
+        />
+        <TextField
+        label='bairro'
+        type={'text'}
+        />
+        <TextField
+          id="outlined-select-currency"
+          select
+          label="Forma de Pagamento"
+          defaultValue="Dinheiro"
+          helperText="Please select your currency"
+        >
+          {formaDePagamento.map((option) => (
+            <MenuItem  key={option.label} value={option.label}>
+            {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+   
+        <TextField
+          id="filled-multiline-static"
+          label="Observação"
+          multiline
+          rows={4}
+         placeholder='ex: tirar cebola,troco para R$50'
+          variant="filled"
+        />
+       
+       <Button variant="contained" color="success" onClick={()=>FinalizaPedido(informacoes)}>Finalizar Pedido</Button>
+        </Box>
+        
+        </BasicModal>
         </Box>
     )
 }
