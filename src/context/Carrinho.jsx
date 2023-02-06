@@ -15,20 +15,24 @@ export const CarrinhoProvider = ({ children }) => {
 
 
   const adicionaProduto = (id) => {
+
     const copyProductsCart = [...carrinho]
   
     const item = copyProductsCart.find((produto) => produto.id === id);
   
     if (!item) {
-      copyProductsCart.push({ id:id,qtd: 1 })
+      copyProductsCart.push({ id:id,qtd:1 })
     } else {
       item.qtd = item.qtd + 1
     }
-    console.log(copyProductsCart)
+   
+   
     setCarrinho(copyProductsCart)
-  
-    console.log(carrinho)
 
+    console.log('carrinho',carrinho)
+  
+    
+   
 
   }
 
@@ -52,16 +56,16 @@ export const CarrinhoProvider = ({ children }) => {
       setCarrinho(arrayFilter)
     }
   }
-  const FinalizaPedido = (dados) => {
+  const FinalizaPedido = () => {
    const copyPedido=[...pedido]
-   const item=copyPedido.find((pedidos)=>pedidos.id ===dados)
-    if(!item){
-      copyPedido.push({info:dados,lanche:carrinho})
+
+  
+      copyPedido.push({lanche:carrinho,total:valor})
    
-    }
+    
     setPedido(copyPedido)
    
-    console.log('meu pedido',pedido)
+    
 
   }
 

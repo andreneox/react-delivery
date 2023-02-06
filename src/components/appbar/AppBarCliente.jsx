@@ -14,20 +14,18 @@ export const AppBarCliente = ()=>{
   
     const {carrinho,valor,openDrawer,setOpenDrawer,valorTotal,pedido,FinalizaPedido}=useContext(CarrinhoContext)
     const [openFinalizaCompra,setOpenFinalizaCompra]=useState(false)
-   const [nome,setNome]=useState()
-   const [rua,setRua]=useState()
-  const descricao=(JSON.stringify(pedido,null,4))
+   
+
     const openCart=()=>{
     setOpenDrawer(true)
-   
-    }
+    console.log(carrinho)
     valorTotal()
+    }
+
 
     const finalizaPedido=()=>{
-        setOpenFinalizaCompra(true)
       
     }
-
     const formaDePagamento =[
         {
        
@@ -39,11 +37,7 @@ export const AppBarCliente = ()=>{
         label:'Cartão'
     }
 ]
-console.log("desc",descricao)
-const informacoes=[{
-  nome:'Giovanne',
-  rua:'antonio luiz pereira'
-}]
+
 
 
 
@@ -95,7 +89,9 @@ const informacoes=[{
                 </Box>
                   ))}
                   <Typography sx={{mt:20}}>Valor total: R$ {valor}</Typography>
+                  
                 <Button variant="contained" sx={{mt:'50px'}} onClick={finalizaPedido} >Finalizar Comprra</Button>
+                
                 </Box>
                 </Drawer>  
 
@@ -112,7 +108,7 @@ const informacoes=[{
         <TextField
         label='Nome'
         type={'text'}
-        onChange={(e)=>setNome(e.target.value)}
+      
         />
     
          <TextField
@@ -126,7 +122,7 @@ const informacoes=[{
         <TextField
         label='rua'
         type={'text'}
-        onChange={(e)=>setRua(e.target.value)}
+      
         />
         <TextField
         label='casa'
@@ -159,7 +155,7 @@ const informacoes=[{
           variant="filled"
         />
        
-       <Button variant="contained" color="success" onClick={()=>FinalizaPedido(informacoes)}>Finalizar Pedido</Button>
+       <Button variant="contained" color="success" onClick={()=>FinalizaPedido()}>Finalizar Pedido</Button>
         </Box>
         
         </BasicModal>
