@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { CarrinhoContext } from "../../context/Carrinho";
 import BasicModal from "../modal/BasicModal";
 import Textarea from '@mui/joy/Textarea';
+import { api } from "../../config/Api";
 
 
 
@@ -12,19 +13,26 @@ import Textarea from '@mui/joy/Textarea';
 export const AppBarCliente = ()=>{
     
   
-    const {carrinho,valor,openDrawer,setOpenDrawer,valorTotal,pedido,FinalizaPedido}=useContext(CarrinhoContext)
-    const [openFinalizaCompra,setOpenFinalizaCompra]=useState(false)
-   
+  const {carrinho,valor,openDrawer,setOpenDrawer,valorTotal,pedido,FinalizaPedido}=useContext(CarrinhoContext)
+  const [openFinalizaCompra,setOpenFinalizaCompra]=useState(false)
+  const [descricao,setDescricao]=useState()
+  const [nome,setNome]=useState()
+  const [formadepagamento,setFormaDePagamento]=useState()
+  const [telefone,setTelefone]=useState()
+  const [endereco,setEndereco]=useState()
 
     const openCart=()=>{
     setOpenDrawer(true)
-    console.log(carrinho)
+    
+    setDescricao(carrinho.reduce((valorAnterior,ValorAtual)=>valorAnterior+ValorAtual.id.nome+" " +"Qtd:"+ValorAtual.qtd+ "  "+"valor und:"+ValorAtual.id.valor+" "," "))
+  
+    console.log('descricao',descricao)
     valorTotal()
     }
 
 
     const finalizaPedido=()=>{
-      
+      setOpenFinalizaCompra(true)
     }
     const formaDePagamento =[
         {
@@ -38,6 +46,33 @@ export const AppBarCliente = ()=>{
     }
 ]
 
+
+
+const InfoPedido = ()=>{
+
+  api.post('CadastroPedido',{
+
+      nome:nome,
+      endereco:endereco,
+      telefone:telefone,
+      formadepagamento:formadepagamento,
+      observacao:descricao
+          },
+      {
+
+         
+    headers:{
+      "authorization": localStorage.getItem('token')
+    }
+  })
+  .then(function(response){
+
+    console.log(response.data.data)
+  })
+  .catch(function(error){
+    console.error(error)
+  })
+}
 
 
 
@@ -108,36 +143,43 @@ export const AppBarCliente = ()=>{
         <TextField
         label='Nome'
         type={'text'}
-      
+        onChange={(e)=>setNome(e.target.value)}
         />
     
          <TextField
         label='Telefone'
         type={'text'}
+        onChange={(e)=>setTelefone(e.target.value)}
         />
         <TextField
         label='Cep'
         type={'text'}
+        onChange={(e)=>setEndereco(e.target.value)}
         />
         <TextField
         label='rua'
         type={'text'}
+        onChange={(e)=>setEndereco(e.target.value)}
       
         />
         <TextField
         label='casa'
         type={'text'}
+        onChange={(e)=>setEndereco(e.target.value)}
         />
         <TextField
         label='bairro'
         type={'text'}
+        onChange={(e)=>setEndereco(e.target.value)}
         />
         <TextField
           id="outlined-select-currency"
           select
           label="Forma de Pagamento"
-          defaultValue="Dinheiro"
-          helperText="Please select your currency"
+          defaultValue=""
+         
+          helperText="Por favor, selecione a forma de pagamento"
+          onChange={(e)=>setFormaDePagamento(e.target.value)}
         >
           {formaDePagamento.map((option) => (
             <MenuItem  key={option.label} value={option.label}>
@@ -151,11 +193,12 @@ export const AppBarCliente = ()=>{
           label="Observação"
           multiline
           rows={4}
+          
          placeholder='ex: tirar cebola,troco para R$50'
           variant="filled"
         />
        
-       <Button variant="contained" color="success" onClick={()=>FinalizaPedido()}>Finalizar Pedido</Button>
+       <Button variant="contained" color="success" onClick={InfoPedido}>Finalizar Pedido</Button>
         </Box>
         
         </BasicModal>

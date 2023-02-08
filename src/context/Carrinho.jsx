@@ -41,7 +41,7 @@ export const CarrinhoProvider = ({ children }) => {
     carrinho.map((produto) => {
       soma += produto.id.valor * produto.qtd
     })
-    setValor(soma)
+    setValor(soma.toFixed(2))
    
   }
   const removeProduto = (pedido) => {
@@ -56,11 +56,11 @@ export const CarrinhoProvider = ({ children }) => {
       setCarrinho(arrayFilter)
     }
   }
-  const FinalizaPedido = () => {
+  const FinalizaPedido = (desc) => {
    const copyPedido=[...pedido]
 
   
-      copyPedido.push({lanche:carrinho,total:valor})
+      copyPedido.push({descricao:desc})
    
     
     setPedido(copyPedido)
