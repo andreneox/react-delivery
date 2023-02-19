@@ -11,6 +11,8 @@ export const CarrinhoProvider = ({ children }) => {
   const [valor, setValor] = useState([])
   const [pedido, setPedido] = useState([])
   const [openDrawer,setOpenDrawer]=useState(false)
+  const [contador,setContador]=useState()
+
 
 
 
@@ -28,11 +30,19 @@ export const CarrinhoProvider = ({ children }) => {
    
    
     setCarrinho(copyProductsCart)
-
+   
     console.log('carrinho',carrinho)
   
     
    
+
+  }
+  const contaQtd = ()=>{
+    let soma =1
+    carrinho.map((valor)=>{
+      soma +=valor.qtd
+    })
+    setContador(soma)
 
   }
 
@@ -56,11 +66,11 @@ export const CarrinhoProvider = ({ children }) => {
       setCarrinho(arrayFilter)
     }
   }
-  const FinalizaPedido = (desc) => {
+  const FinalizaPedido = () => {
    const copyPedido=[...pedido]
 
   
-      copyPedido.push({descricao:desc})
+      copyPedido.push()
    
     
     setPedido(copyPedido)
@@ -71,7 +81,7 @@ export const CarrinhoProvider = ({ children }) => {
 
 
   return (
-    <CarrinhoContext.Provider value={{ pedido,adicionaProduto, carrinho, setCarrinho, valor, valorTotal, removeProduto, FinalizaPedido,pedido,openDrawer,setOpenDrawer}}>
+    <CarrinhoContext.Provider value={{contaQtd,contador, pedido,adicionaProduto, carrinho, setCarrinho, valor, valorTotal, removeProduto, FinalizaPedido,pedido,openDrawer,setOpenDrawer}}>
       {children}
     </CarrinhoContext.Provider>
   )

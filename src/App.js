@@ -1,4 +1,5 @@
 
+import { SnackbarProvider } from "notistack";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
 import { Cadastro } from "./pages/cadastro/Cadastro";
@@ -20,6 +21,7 @@ function App() {
       <Route path="/admin/home" element={<HomeAdmin/>} />
       <Route path="/cadastro" element={<Cadastro/>}/>
       <Route path="/pedido" element={<TelaPedido/>}/>
+      
       <Route path="/cardapio" element={<HomeCliente/>}/>
     
     
