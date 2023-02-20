@@ -130,7 +130,7 @@ export const AppBarCliente = () => {
                 <Box sx={{ display: 'flex', pt: 5, justifyContent: 'space-between', flexWrap: 'nowrap', width: '80%' }}>
 
                   <Typography>item</Typography>
-
+                  <Typography>v.uni</Typography>
                   <Typography>qtd</Typography>
 
 
@@ -141,8 +141,9 @@ export const AppBarCliente = () => {
                   <Box key={index} sx={{ display: 'flex', width: '80%', justifyContent: 'space-between', mt: '15px' }}>
 
                     <Typography>{item.id.nome} </Typography>
-
+                    <Typography>R${item.id.valor}</Typography>
                     <Typography>{item.qtd}</Typography>
+                  
 
                   </Box>
                 ))}

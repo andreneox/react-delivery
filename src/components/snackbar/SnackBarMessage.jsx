@@ -1,8 +1,8 @@
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useContext } from "react"
 import { CarrinhoContext } from '../../context/Carrinho';
-
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const SnackBarMessage =({add}) =>{
   const { adicionaProduto, valorTotal,contaQtd} = useContext(CarrinhoContext)
@@ -18,6 +18,8 @@ export const SnackBarMessage =({add}) =>{
   };
 
   return (
-    <Button variant='contained' onClick={handleClick}>Adicionar ao carrinho</Button>
+    <IconButton color='inherit'>
+    <AddCircleIcon fontSize='large' variant='contained' onClick={handleClick}>Adicionar ao carrinho</AddCircleIcon>
+    </IconButton>
   );
 }
