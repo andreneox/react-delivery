@@ -46,17 +46,23 @@ export const Cadastro = () => {
             <TextField
               label='Nome'
               type='text'
+              focused
+              color="secondary"
               onChange={(e) => setNome(e.target.value)}
             />
 
             <TextField
               label='Valor'
               type='text'
+              focused
+              color="secondary"
               onChange={(e) => setValor(e.target.value)}
             />
 
             <TextField
               type='file'
+              focused
+              color="secondary"
               onChange={(e) => setImg(e.target.files[0])}
             />
             <Button variant="contained" type="submit">Cadastrar</Button>

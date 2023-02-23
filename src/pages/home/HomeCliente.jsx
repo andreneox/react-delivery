@@ -70,7 +70,7 @@ export const HomeCliente = () => {
                 </CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
                   <CardActions sx={{ display: { md: 'flex', justifyContent: 'space-between', flexFlow: 'wrap', gap: 1, width: '100%' } }}>
-                  <Typography variant="h5" fontWeight='bold' component="div">
+                  <Typography variant="h7" fontWeight='bold' component="div">
                     R$ {cardapios.valor}   
                   </Typography>
                   <SnackBarMessage add={cardapios}  />

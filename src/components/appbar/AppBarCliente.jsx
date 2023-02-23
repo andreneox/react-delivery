@@ -162,10 +162,14 @@ export const AppBarCliente = () => {
 
 
       </AppBar>
-      <BasicModal isOpen={openFinalizaCompra} setIsOpen={() => setOpenFinalizaCompra(false)}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 3, width: '100%' }}>
+
+      <BasicModal  isOpen={openFinalizaCompra}  setIsOpen={() => setOpenFinalizaCompra(false)}>
+        
 
           <Typography variant="h5">Informações da Entrega</Typography>
+          <Box sx={{display:'flex',flexWrap:'wrap',gap:4}}>
+
+        
           <TextField
             label='Nome'
             type={'text'}
@@ -225,7 +229,7 @@ export const AppBarCliente = () => {
           />
 
           <Button variant="contained" color="success" onClick={InfoPedido}>Finalizar Pedido</Button>
-        </Box>
+          </Box>
 
       </BasicModal>
     </Box>

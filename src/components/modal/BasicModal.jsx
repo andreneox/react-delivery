@@ -19,7 +19,7 @@ export default function BasicModal({isOpen,setIsOpen,children}) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{maxheight:'600px',boxShadow:24,p:5,width:'350px',border:'2px solid #000',bgcolor:'background.paper',position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)'}}>
+        <Box sx={{height:'500px',boxShadow:24,p:5,Width:'600px',border:'2px solid #000',bgcolor:'background.paper',position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)'}} >
         {children}
         </Box>
       </Modal>

@@ -6,9 +6,9 @@ import { grey, red } from "@mui/material/colors"
 export const LightTema =createTheme({
     palette:{
         primary:{
-            main: grey['800'] ,
-            dark:grey['900'],
-            light:grey['100'],
+            main: grey['900'] ,
+            dark:grey['800'],
+            light:red['500'],
             contrastText:'#fff'
         },
         secondary:{
@@ -17,9 +17,14 @@ export const LightTema =createTheme({
             light:red['400'],
             contrastText:'#fff'
         },
+        text:{
+            primary:'#fff',
+            secondary:grey['50']
+        },
+        
         background:{
-           default:grey['400'],
-           paper:'#fff',
+           default:'#000',
+           paper:grey['900'],
          
             
         },
