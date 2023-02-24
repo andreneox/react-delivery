@@ -8,6 +8,7 @@ import Textarea from '@mui/joy/Textarea';
 import { api } from "../../config/Api";
 import styled from "@emotion/styled";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -26,7 +27,7 @@ export const AppBarCliente = () => {
   const [casa, setCasa] = useState()
   const [bairro, setBairro] = useState()
   const [produto, setProduto] = useState([])
-
+  const navigate=useNavigate()
 
   const openCart = () => {
     setOpenDrawer(true)
@@ -35,7 +36,8 @@ export const AppBarCliente = () => {
 
 
   const finalizaPedido = () => {
-    setOpenFinalizaCompra(true)
+    navigate('/checkout')
+    setOpenFinalizaCompra(false)
 
 
 
@@ -206,7 +208,7 @@ export const AppBarCliente = () => {
             id="outlined-select-currency"
             select
             label="Forma de Pagamento"
-            defaultValue=""
+            defaultValue="dinheiro"
 
             helperText="Por favor, selecione a forma de pagamento"
 

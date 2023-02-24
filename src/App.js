@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import { AppThemeProvider } from "./context/AppThemeProvider";
 
 import { Cadastro } from "./pages/cadastro/Cadastro";
+import { Checkout } from "./pages/checkout/Checkout";
 import { HomeAdmin } from "./pages/home/HomeAdmin";
 import { HomeCliente } from "./pages/home/HomeCliente";
 
@@ -27,7 +28,7 @@ function App() {
       <Route path="/admin/home" element={<HomeAdmin/>} />
       <Route path="/cadastro" element={<Cadastro/>}/>
       <Route path="/pedido" element={<TelaPedido/>}/>
-      
+      <Route path="/checkout" element={<Checkout/>}/>
       <Route path="/cardapio" element={<HomeCliente/>}/>
     
     
