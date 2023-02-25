@@ -37,7 +37,7 @@ export const AppBarCliente = () => {
 
   const finalizaPedido = () => {
     navigate('/checkout')
-    setOpenFinalizaCompra(false)
+    setOpenDrawer(false)
 
 
 

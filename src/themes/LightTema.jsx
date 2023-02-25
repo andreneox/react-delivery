@@ -24,7 +24,7 @@ export const LightTema =createTheme({
         
         background:{
            default:'#000',
-           paper:grey['900'],
+           paper:grey['600'],
          
             
         },
