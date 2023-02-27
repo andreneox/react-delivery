@@ -11,6 +11,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from "react-router-dom";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import { BadgeCart } from "../badge/BadgeCart";
 
 
 
@@ -53,15 +54,7 @@ export const AppBarCliente = () => {
   
   
 
-  const StyledBadge = styled(Badge)(({ theme }) => ({
-    '& .MuiBadge-badge': {
-      right: -3,
-      top: 13,
-      border: '2px solid',
-      padding: '0 4px',
-    },
-  }));
-
+ 
 
  
 
@@ -87,10 +80,10 @@ export const AppBarCliente = () => {
 
               <Typography>Sistema Delivery</Typography>
 
-              <IconButton color="inherit" onClick={openCart} aria-label="delete">
-                <StyledBadge badgeContent={contador} color="secondary">
+              <IconButton color="inherit" size="large" onClick={openCart} aria-label="delete">
+                <BadgeCart badgeContent={contador}>
                   <ShoppingCartIcon />
-                </StyledBadge>
+                  </BadgeCart>
               </IconButton>
             </Box>
 

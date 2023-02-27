@@ -9,62 +9,71 @@ import { CarrinhoContext } from "../../context/Carrinho";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 export const Checkout = () => {
 
-    const { carrinho,adicionaProduto,removeProduto,CalculaSubTotal,subValor,valorTotal,CalculaValorTotal} = useContext(CarrinhoContext)
+    const { carrinho, adicionaProduto, removeProduto, CalculaSubTotal, subValor, valorTotal, CalculaValorTotal } = useContext(CarrinhoContext)
     const [url, setUrl] = useState('http://localhost:3005/files/')
     const [cep, setCep] = useState('');
     const [endereco, setEndereco] = useState([]);
     const { logradouro, bairro, localidade, } = endereco;
-
-    const bairros=[{bairro:'Ponta Negra',taxa:10},{bairro:'Compensa',taxa:5}]
+    const bairros = [{ bairro: 'Ponta Negra', taxa: 10 }, { bairro: 'Compensa', taxa: 5 }]
+    const navigate = useNavigate()
+    const [taxa, setTaxa] = useState(0)
+   
     
-    const [taxa,setTaxa]=useState(0)
 
-    useEffect(()=>{
+    useEffect(() => {
         CalculaSubTotal()
         CalculaValorTotal(taxa)
+       
         
-        
-        
+
+        if(carrinho.length<1){
+            navigate('/cardapio')
+        }
+
     })
 
-    const calculaTaxa = (bairro)=>{
+  
 
-    const bairroEncontrado =bairros.find((obj)=>obj.bairro ===bairro);
 
-    if(bairroEncontrado){
-        return setTaxa(bairroEncontrado.taxa)
-    }else{
-        return alert('nao entregamos para a sua localidade')
+    const calculaTaxa = (bairro) => {
+
+        const bairroEncontrado = bairros.find((obj) => obj.bairro === bairro);
+
+        if (bairroEncontrado) {
+            return setTaxa(bairroEncontrado.taxa)
+        } else {
+            return alert('nao entregamos para o bairro' + " " + bairro)
+        }
+
     }
 
+    const buscarCep = (cep) => {
+        axios.get('https://viacep.com.br/ws/' + cep + '/json/', {
+
+        })
+            .then(function (response) {
+                // manipula o sucesso da requisição
+                console.log(response)
+
+                setEndereco(response.data)
+                calculaTaxa(response.data.bairro)
+
+
+
+            })
+            .catch(function (error) {
+                // manipula erros da requisição
+                console.error(error);
+            })
+
     }
 
-    const buscarCep=(cep)=>{
-        axios.get('https://viacep.com.br/ws/'+cep+'/json/', {
-       
-    })
-      .then(function (response) {
-        // manipula o sucesso da requisição
-        console.log(response)
-       
-        setEndereco(response.data)
-        calculaTaxa(response.data.bairro)
-   
-       
 
-      })
-      .catch(function (error) {
-        // manipula erros da requisição
-        console.error(error);
-      })
-     
-    }
-
-   
 
     return (
         <>
@@ -86,37 +95,37 @@ export const Checkout = () => {
                             </Box>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 5, gap: { xs: 2, md: 2 } }}>
                                 <TextField label='cep' sx={{ width: { xs: '100%', md: '30%' } }}
-                               onBlur={()=>buscarCep(cep)}
-                                onChange={(e) => setCep(e.target.value)}
-                      
-                                
+                                    onBlur={() => buscarCep(cep)}
+                                    onChange={(e) => setCep(e.target.value)}
+
+
                                 />
                                 <TextField label='rua' sx={{ width: { xs: '100%', md: '100%' } }}
-                                InputLabelProps={{ shrink: true }}
-                                value={logradouro}
-                                onChange={(e) => setEndereco({ ...endereco, logradouro: e.target.value })}
-                              
-                               
-                                 />
-                                <TextField label='numero' sx={{ width: { xs: '100%', md: '30%' } }} 
-                                 InputLabelProps={{ shrink: true }}
-                                 
-                               
+                                    InputLabelProps={{ shrink: true }}
+                                    value={logradouro}
+
+
+
                                 />
-                                <TextField label='complemento' sx={{ width: { xs: '100%', md: '50%' } }} 
-                                 InputLabelProps={{ shrink: true }}
-                                
+                                <TextField label='numero' sx={{ width: { xs: '100%', md: '30%' } }}
+                                    InputLabelProps={{ shrink: true }}
+
+
                                 />
-                                <TextField label='bairro' sx={{ width: { xs: '100%', md: '30%' } }} 
-                                 InputLabelProps={{ shrink: true }}
-                                 value={bairro}
-                                 
-                                 />
-                                <TextField label='cidade' sx={{ width: { xs: '100%', md: '50%' } }} 
-                                 InputLabelProps={{ shrink: true }}
-                                 value={localidade}
-                                 onChange={(e) => setEndereco({ ...endereco, localidade: e.target.value })}
-                                 />
+                                <TextField label='complemento' sx={{ width: { xs: '100%', md: '50%' } }}
+                                    InputLabelProps={{ shrink: true }}
+
+                                />
+                                <TextField label='bairro' sx={{ width: { xs: '100%', md: '30%' } }}
+                                    InputLabelProps={{ shrink: true }}
+                                    value={bairro}
+
+                                />
+                                <TextField label='cidade' sx={{ width: { xs: '100%', md: '50%' } }}
+                                    InputLabelProps={{ shrink: true }}
+                                    value={localidade}
+                                    onChange={(e) => setEndereco({ ...endereco, localidade: e.target.value })}
+                                />
                             </Box>
                         </Box>
 
@@ -131,7 +140,8 @@ export const Checkout = () => {
                             </Box>
                             <Box sx={{ display: 'flex', mt: 3, gap: 3 }}>
                                 <Button variant="contained"> <CreditCardIcon sx={{ mr: 2 }} /> Cartão de Crédito/Débito</Button>
-                                <Button variant="contained"> <AttachMoneyIcon sx={{ mr: 2 }} />Dinheiro</Button>
+
+                                <Button variant="contained"> <AttachMoneyIcon />Dinheiro</Button>
                             </Box>
                         </Box>
                     </Grid>
@@ -142,7 +152,7 @@ export const Checkout = () => {
 
                         <Typography variant="h5">Pedidos Selecionados</Typography>
 
-                        <Box sx={{ p: 5, bgcolor: 'background.paper' }}>
+                        <Box sx={{p:5, bgcolor: 'background.paper'}}>
 
 
 
@@ -163,11 +173,11 @@ export const Checkout = () => {
 
                                     <Box sx={{ display: 'flex', gap: 2, mt: 2, mb: 2 }}>
                                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, boxShadow: 2 }}>
-                                            <IconButton onClick={()=>removeProduto(pedido.id)} >
+                                            <IconButton onClick={() => removeProduto(pedido.id)} >
                                                 <RemoveIcon />
                                             </IconButton>
                                             <Typography>{pedido.qtd}</Typography>
-                                            <IconButton onClick={()=>adicionaProduto(pedido.id)}>
+                                            <IconButton onClick={() => adicionaProduto(pedido.id)}>
                                                 <AddIcon />
                                             </IconButton>
 
@@ -176,13 +186,13 @@ export const Checkout = () => {
                                     </Box>
                                 </>
                             ))}
-                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column',gap:2 }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                     <Typography variant="h6">Subtotal</Typography>
                                     <Typography>Entrega</Typography>
                                     <Typography variant="h5">Total</Typography>
                                 </Box>
-                                <Box sx={{ display: 'flex', flexDirection: 'column',gap:2 }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                     <Typography variant="h6">R${subValor}</Typography>
                                     <Typography>R${taxa}</Typography>
                                     <Typography variant="h5">R${valorTotal}</Typography>

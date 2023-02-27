@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -13,8 +14,7 @@ export const CarrinhoProvider = ({ children }) => {
   const [openDrawer,setOpenDrawer]=useState(false)
   const [valorTotal,setValorTotal]=useState()
   const [contador,setContador]=useState(0)
-
-
+  
 
   const adicionaProduto = (id) => {
 
@@ -31,7 +31,8 @@ export const CarrinhoProvider = ({ children }) => {
    
     setCarrinho(copyProductsCart)
     
- 
+    setContador(contador + 1);
+    
     console.log('carrinho',carrinho)
   
 
@@ -66,6 +67,7 @@ export const CarrinhoProvider = ({ children }) => {
       const arrayFilter = copyProductsCart.filter(produto => produto.id != pedido)
       setCarrinho(arrayFilter)
     }
+    setContador(contador -1);
     
   }
   const FinalizaPedido = () => {

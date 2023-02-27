@@ -204,7 +204,7 @@ export const HomeAdmin = () => {
           {cardapio.map((cardapios, index) => (
             <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
 
-              <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>
+              <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', maxHeight: '300px' }}>
               
 
                 <CardMedia sx={{display:'flex',justifyContent:'center',alignItems:'center',mt:3,height:'100px'}}>

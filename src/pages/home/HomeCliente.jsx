@@ -59,7 +59,7 @@ export const HomeCliente = () => {
                   <CardMedia sx={{display:'flex',justifyContent:'center',mt:2,alignItems:'center',height:'150px'}}>
                           <img style={{width:'100%',height:'100%'}} src={url+cardapios.img}></img>
                   
-                   
+
                   </CardMedia>
               
                 <CardContent sx={{display:'flex',p:1}}>
