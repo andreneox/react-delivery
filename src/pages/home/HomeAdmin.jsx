@@ -205,14 +205,14 @@ export const HomeAdmin = () => {
             <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
 
               <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>
-                <Box sx={{ width: '100%', height: '450px' }}>
+              
 
-                  <CardMedia
-                    sx={{ width: '100%', height: '100%', borderRadius: 1 }}
-                    image={url + cardapios.img}
-                  >
+                <CardMedia sx={{display:'flex',justifyContent:'center',alignItems:'center',mt:3,height:'100px'}}>
+                          <img style={{width:'100%',height:'100%'}} src={url+cardapios.img}></img>
+                  
+                   
                   </CardMedia>
-                </Box>
+               
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Typography gutterBottom variant="h8" component="div">
                     {cardapios.nome}

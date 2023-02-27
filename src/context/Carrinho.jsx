@@ -12,6 +12,7 @@ export const CarrinhoProvider = ({ children }) => {
   const [pedido, setPedido] = useState([])
   const [openDrawer,setOpenDrawer]=useState(false)
   const [contador,setContador]=useState()
+  const [taxaEntrega,setTaxaEntrega]=useState()
 
 
 
@@ -45,7 +46,7 @@ export const CarrinhoProvider = ({ children }) => {
     setContador(soma)
 
   }
-
+ 
   const valorTotal = () => {
     let soma = 0
     carrinho.map((produto) => {

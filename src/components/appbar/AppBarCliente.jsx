@@ -132,7 +132,7 @@ export const AppBarCliente = () => {
                 <Box sx={{ display: 'flex', pt: 5, justifyContent: 'space-between', flexWrap: 'nowrap', width: '80%' }}>
 
                   <Typography>item</Typography>
-                  <Typography>v.uni</Typography>
+                  
                   <Typography>qtd</Typography>
 
 

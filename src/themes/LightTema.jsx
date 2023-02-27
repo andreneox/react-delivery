@@ -23,7 +23,7 @@ export const LightTema =createTheme({
         },
         
         background:{
-           default:'#000',
+           default:'#121212',
            paper:grey['600'],
          
             

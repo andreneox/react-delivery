@@ -14,7 +14,7 @@ import { SnackBarMessage } from "../../components/snackbar/SnackBarMessage"
 export const HomeCliente = () => {
   const [cardapio, setCardapio] = useState([])
   const [url, setUrl] = useState('http://localhost:3005/files/')
-  const { adicionaProduto, valorTotal } = useContext(CarrinhoContext)
+
   const cardapioFilter = cardapio.filter(cardapio => cardapio.status != 'inativo');
 
 
@@ -56,14 +56,14 @@ export const HomeCliente = () => {
               <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>
                 
          
-                  <CardMedia sx={{ height:'150px',width:'80%'}}>
+                  <CardMedia sx={{display:'flex',justifyContent:'center',alignItems:'center',mt:3,height:'150px'}}>
                           <img style={{width:'100%',height:'100%'}} src={url+cardapios.img}></img>
                   
                    
                   </CardMedia>
               
-                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Typography gutterBottom variant="h8" component="div">
+                <CardContent >
+                  <Typography gutterBottom variant="h8">
                     {cardapios.nome}
                   </Typography>
                 
