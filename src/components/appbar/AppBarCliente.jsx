@@ -1,7 +1,7 @@
 import { AppBar, Badge, Button, Divider, Drawer, IconButton, MenuItem, TextareaAutosize, TextField, Toolbar, Typography } from "@mui/material"
 import { Box, Container } from "@mui/system"
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CarrinhoContext } from "../../context/Carrinho";
 import BasicModal from "../modal/BasicModal";
 import Textarea from '@mui/joy/Textarea';
@@ -9,50 +9,49 @@ import { api } from "../../config/Api";
 import styled from "@emotion/styled";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from "react-router-dom";
-
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 
 
 
 export const AppBarCliente = () => {
 
 
-  const { carrinho, valor, openDrawer, setOpenDrawer, valorTotal,contador } = useContext(CarrinhoContext)
-  const [openFinalizaCompra, setOpenFinalizaCompra] = useState(false)
+  const { carrinho, subValor,CalculaSubTotal, openDrawer, setOpenDrawer,  adicionaProduto,contador, removeProduto } = useContext(CarrinhoContext)
+ 
+  const [url, setUrl] = useState('http://localhost:3005/files/')
 
-  const [nome, setNome] = useState()
 
-  const [telefone, setTelefone] = useState()
-  const [rua, setRua] = useState()
-  const [cep, setCep] = useState()
-  const [casa, setCasa] = useState()
-  const [bairro, setBairro] = useState()
-  const [produto, setProduto] = useState([])
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
   const openCart = () => {
     setOpenDrawer(true)
-    valorTotal()
-  }
 
+  }
+  useEffect(() => {
+    CalculaSubTotal()
+  })
 
   const finalizaPedido = () => {
+  
+  let qtdCarrinho=0
+  carrinho.map((valor)=>{
+    qtdCarrinho=valor.qtd
+  })
+  if(qtdCarrinho===0){
+    alert('você precisa adicionar algum item no seu carrinho para continuar')
+  }else{
     navigate('/checkout')
     setOpenDrawer(false)
-
-
-
   }
-  const formaDePagamento = [
-    {
+  
+   }
+       
+      
+ 
 
-      label: 'Dinheiro'
-
-    }, {
-
-
-      label: 'Cartão'
-    }
-  ]
+  
+  
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -64,41 +63,10 @@ export const AppBarCliente = () => {
   }));
 
 
-  const InfoPedido = (id) => {
-
-    api.post('CadastrarPedido', {
-      nome: nome,
-      telefone: telefone,
-      cep: cep,
-      rua: rua,
-      casa: casa,
-      bairro: bairro,
-
-      produtos: carrinho.map((produto) => {
-        return {
-
-          id: produto.id.id,
-          qtd: produto.qtd
-
-        }
-      })
-
-
-
-
-
-    })
-      .then(function (response) {
-        console.log(response);
-      
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-
-
  
+
+
+
 
   return (
     <Box>
@@ -107,10 +75,15 @@ export const AppBarCliente = () => {
           <Container maxWidth='xl'>
 
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems:'center',width: '100%' }}>
 
-
-              <Typography>Logo</Typography>
+          
+            <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',height:'100px'}}>
+                          <img style={{width:'100%',height:'100%'}} src={'https://play-lh.googleusercontent.com/2myDHuFjsHxi4DjhSITZ9tPDwyj1tPsMNzkzdiJHrrgaZ0FH1LMWUgd8ma-7CqdTgg'}></img>
+                  
+                   
+                  </Box>
+            
 
               <Typography>Sistema Delivery</Typography>
 
@@ -123,39 +96,62 @@ export const AppBarCliente = () => {
 
 
             <Drawer anchor="right" open={openDrawer} onClose={() => setOpenDrawer(false)}>
-              <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', pt: 5, justifyContent: 'center', width: '300px' }}>
-                <Typography variant="h4">Pedido</Typography>
+
+              <Typography variant="h5">Pedidos Selecionados</Typography>
+
+              <Box sx={{ p: 5, bgcolor: 'background.paper' }}>
 
 
 
 
-                <Box sx={{ display: 'flex', pt: 5, justifyContent: 'space-between', flexWrap: 'nowrap', width: '80%' }}>
+                {carrinho.map((pedido, index) => (
+                  <>
 
-                  <Typography>item</Typography>
-                  
-                  <Typography>qtd</Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',gap:1 }}>
 
+                      <Box sx={{ width: '80px' }}>
+                        <img style={{ width: '100%', height: '100%' }} src={url + pedido.id.img}></img>
+                      </Box>
 
+                      <Typography variant="h6">{pedido.id.nome}</Typography>
+                      <Typography variant="h6" fontWeight={'bolder'}>R${pedido.id.valor}</Typography>
 
-                </Box>
-                {carrinho.map((item, index) => (
+                    </Box>
 
-                  <Box key={index} sx={{ display: 'flex', width: '80%', justifyContent: 'space-between', mt: '15px' }}>
+                    <Box sx={{ display: 'flex', gap: 2, mt: 2, mb: 2 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, boxShadow: 2 }}>
+                        <IconButton onClick={() => removeProduto(pedido.id)} >
+                          <RemoveIcon />
+                        </IconButton>
+                        <Typography>{pedido.qtd}</Typography>
+                        <IconButton onClick={() => adicionaProduto(pedido.id)}>
+                          <AddIcon />
+                        </IconButton>
 
-                    <Typography>{item.id.nome} </Typography>
-                    <Typography>R${item.id.valor}</Typography>
-                    <Typography>{item.qtd}</Typography>
-                  
-
-                  </Box>
+                      </Box>
+                      <Button variant="contained">Excluir item</Button>
+                    </Box>
+                  </>
                 ))}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  
 
-                <Typography sx={{ mt: 20 }}>Valor total: R$ {valor}</Typography>
-                <Button variant="contained" sx={{ mt: '50px' }} onClick={() => finalizaPedido()} >Finalizar Comprra</Button>
+                    <Typography variant="h5">Total</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                 
+
+                    <Typography variant="h5">{subValor}</Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',mt:5}}>
+                  <Button variant="contained" onClick={finalizaPedido} sx={{width:'100%'}}>Finalizar Pedido</Button>
+                </Box>
 
 
               </Box>
-
             </Drawer>
 
           </Container>
@@ -165,75 +161,7 @@ export const AppBarCliente = () => {
 
       </AppBar>
 
-      <BasicModal  isOpen={openFinalizaCompra}  setIsOpen={() => setOpenFinalizaCompra(false)}>
-        
-
-          <Typography variant="h5">Informações da Entrega</Typography>
-          <Box sx={{display:'flex',flexWrap:'wrap',gap:4}}>
-
-        
-          <TextField
-            label='Nome'
-            type={'text'}
-            onChange={(e) => setNome(e.target.value)}
-          />
-
-          <TextField
-            label='Telefone'
-            type={'text'}
-            onChange={(e) => setTelefone(e.target.value)}
-          />
-          <TextField
-            label='Cep'
-            type={'text'}
-            onChange={(e) => setCep(e.target.value)}
-          />
-          <TextField
-            label='rua'
-            type={'text'}
-            onChange={(e) => setRua(e.target.value)}
-
-          />
-          <TextField
-            label='casa'
-            type={'text'}
-            onChange={(e) => setCasa(e.target.value)}
-          />
-          <TextField
-            label='bairro'
-            type={'text'}
-            onChange={(e) => setBairro(e.target.value)}
-          />
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="Forma de Pagamento"
-            defaultValue="dinheiro"
-
-            helperText="Por favor, selecione a forma de pagamento"
-
-          >
-            {formaDePagamento.map((option) => (
-              <MenuItem key={option.label} value={option.label}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            id="filled-multiline-static"
-            label="Observação"
-            multiline
-            rows={4}
-
-            placeholder='ex: tirar cebola,troco para R$50'
-            variant="filled"
-          />
-
-          <Button variant="contained" color="success" onClick={InfoPedido}>Finalizar Pedido</Button>
-          </Box>
-
-      </BasicModal>
+    
     </Box>
   )
 }

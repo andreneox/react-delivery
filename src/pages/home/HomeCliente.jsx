@@ -53,17 +53,17 @@ export const HomeCliente = () => {
         <Grid container sx={{ mt: '70px' }} spacing={2}>
           {cardapioFilter.map((cardapios, index) => (
             <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
-              <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxwidth: '400px', height: '300px' }}>
+              <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '400px', maxHeight: '300px' }}>
                 
          
-                  <CardMedia sx={{display:'flex',justifyContent:'center',alignItems:'center',mt:3,height:'150px'}}>
+                  <CardMedia sx={{display:'flex',justifyContent:'center',mt:2,alignItems:'center',height:'150px'}}>
                           <img style={{width:'100%',height:'100%'}} src={url+cardapios.img}></img>
                   
                    
                   </CardMedia>
               
-                <CardContent >
-                  <Typography gutterBottom variant="h8">
+                <CardContent sx={{display:'flex',p:1}}>
+                  <Typography   variant="h6">
                     {cardapios.nome}
                   </Typography>
                 

@@ -13,15 +13,35 @@ import axios from "axios";
 
 export const Checkout = () => {
 
-    const { carrinho,adicionaProduto,removeProduto,valorTotal,valor} = useContext(CarrinhoContext)
+    const { carrinho,adicionaProduto,removeProduto,CalculaSubTotal,subValor,valorTotal,CalculaValorTotal} = useContext(CarrinhoContext)
     const [url, setUrl] = useState('http://localhost:3005/files/')
     const [cep, setCep] = useState('');
     const [endereco, setEndereco] = useState([]);
     const { logradouro, bairro, localidade, } = endereco;
 
+    const bairros=[{bairro:'Ponta Negra',taxa:10},{bairro:'Compensa',taxa:5}]
+    
+    const [taxa,setTaxa]=useState(0)
+
     useEffect(()=>{
-        valorTotal()
+        CalculaSubTotal()
+        CalculaValorTotal(taxa)
+        
+        
+        
     })
+
+    const calculaTaxa = (bairro)=>{
+
+    const bairroEncontrado =bairros.find((obj)=>obj.bairro ===bairro);
+
+    if(bairroEncontrado){
+        return setTaxa(bairroEncontrado.taxa)
+    }else{
+        return alert('nao entregamos para a sua localidade')
+    }
+
+    }
 
     const buscarCep=(cep)=>{
         axios.get('https://viacep.com.br/ws/'+cep+'/json/', {
@@ -30,8 +50,9 @@ export const Checkout = () => {
       .then(function (response) {
         // manipula o sucesso da requisição
         console.log(response)
+       
         setEndereco(response.data)
-
+        calculaTaxa(response.data.bairro)
    
        
 
@@ -40,7 +61,9 @@ export const Checkout = () => {
         // manipula erros da requisição
         console.error(error);
       })
+     
     }
+
    
 
     return (
@@ -77,6 +100,7 @@ export const Checkout = () => {
                                  />
                                 <TextField label='numero' sx={{ width: { xs: '100%', md: '30%' } }} 
                                  InputLabelProps={{ shrink: true }}
+                                 
                                
                                 />
                                 <TextField label='complemento' sx={{ width: { xs: '100%', md: '50%' } }} 
@@ -86,7 +110,7 @@ export const Checkout = () => {
                                 <TextField label='bairro' sx={{ width: { xs: '100%', md: '30%' } }} 
                                  InputLabelProps={{ shrink: true }}
                                  value={bairro}
-                               
+                                 
                                  />
                                 <TextField label='cidade' sx={{ width: { xs: '100%', md: '50%' } }} 
                                  InputLabelProps={{ shrink: true }}
@@ -133,7 +157,7 @@ export const Checkout = () => {
                                         </Box>
 
                                         <Typography variant="h6">{pedido.id.nome}</Typography>
-                                        <Typography variant="h6" fontWeight={'bolder'}>{pedido.id.valor}</Typography>
+                                        <Typography variant="h6" fontWeight={'bolder'}>R${pedido.id.valor}</Typography>
 
                                     </Box>
 
@@ -159,9 +183,9 @@ export const Checkout = () => {
                                     <Typography variant="h5">Total</Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'column',gap:2 }}>
-                                    <Typography variant="h6">R$100</Typography>
-                                    <Typography>R$100</Typography>
-                                    <Typography variant="h5">{valor}</Typography>
+                                    <Typography variant="h6">R${subValor}</Typography>
+                                    <Typography>R${taxa}</Typography>
+                                    <Typography variant="h5">R${valorTotal}</Typography>
                                 </Box>
                             </Box>
 

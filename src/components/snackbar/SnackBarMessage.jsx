@@ -9,7 +9,7 @@ export const SnackBarMessage =({add}) =>{
   const { enqueueSnackbar } = useSnackbar();
  
   const handleClick = () => {
-    contaQtd()
+    
     enqueueSnackbar(add.nome+" "+'no carrinho ;)', { variant: 'success',
   
   });
