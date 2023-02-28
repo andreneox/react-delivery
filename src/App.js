@@ -7,6 +7,7 @@ import { AppThemeProvider } from "./context/AppThemeProvider";
 
 import { Cadastro } from "./pages/cadastro/Cadastro";
 import { Checkout } from "./pages/checkout/Checkout";
+import { Finalizacao } from "./pages/finalizacao/Finalizacao";
 import { HomeAdmin } from "./pages/home/HomeAdmin";
 import { HomeCliente } from "./pages/home/HomeCliente";
 
@@ -29,6 +30,7 @@ function App() {
       <Route path="/cadastro" element={<Cadastro/>}/>
       <Route path="/pedido" element={<TelaPedido/>}/>
       <Route path="/checkout" element={<Checkout/>}/>
+      <Route path="/finalizacao" element={<Finalizacao/>}/>
       <Route path="/cardapio" element={<HomeCliente/>}/>
     
     

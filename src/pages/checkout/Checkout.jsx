@@ -110,7 +110,7 @@ export const Checkout = () => {
         })
             .then(function (response) {
                 console.log(response);
-
+            navigate('/finalizacao')
 
             })
             .catch(function (error) {
@@ -126,7 +126,7 @@ export const Checkout = () => {
             <Container maxWidth='xl'>
                 <Grid container spacing={10} sx={{ mt: { xs: 5, md: 10 } }} >
 
-                    <Grid item xs={12} md={8}>
+                    <Grid item xs={12} md={12} lg={6}>
                         <Typography sx={{ mb: 1 }} variant="h5">Complete seu pedido</Typography>
                         <Box sx={{ p: 5, bgcolor: 'background.paper' }}>
 
@@ -208,7 +208,7 @@ export const Checkout = () => {
                         </Box>
                     </Grid>
 
-                    <Grid item md={4} >
+                    <Grid item xs={12} md={12} lg={6} >
 
 
 
@@ -222,7 +222,7 @@ export const Checkout = () => {
                             {carrinho.map((pedido, index) => (
                                 <>
 
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
 
                                         <Box sx={{ width: '80px' }}>
                                             <img style={{ width: '100%', height: '100%' }} src={url + pedido.id.img}></img>
