@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { BadgeCart } from "../badge/BadgeCart";
-
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 export const AppBarCliente = () => {
@@ -89,9 +89,14 @@ export const AppBarCliente = () => {
 
 
             <Drawer anchor="right" open={openDrawer} onClose={() => setOpenDrawer(false)}>
-
-              <Typography variant="h5">Pedidos Selecionados</Typography>
-
+                <Box sx={{display:'flex',justifyContent:'space-between'}}>
+                <Typography variant="h5">Pedidos Selecionados</Typography>
+                <IconButton  color="error" onClick={()=>setOpenDrawer(false)}>
+                  <ClearIcon fontSize="large"/>
+                </IconButton>
+                </Box>
+            
+                
               <Box sx={{ p: 5, bgcolor: 'background.paper' }}>
 
 

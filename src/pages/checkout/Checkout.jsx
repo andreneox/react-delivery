@@ -10,34 +10,39 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { grey } from "@mui/material/colors";
+import { api } from "../../config/Api";
 
 
 export const Checkout = () => {
 
     const { carrinho, adicionaProduto, removeProduto, CalculaSubTotal, subValor, valorTotal, CalculaValorTotal } = useContext(CarrinhoContext)
     const [url, setUrl] = useState('http://localhost:3005/files/')
-    const [cep, setCep] = useState('');
+    const [cep, setCep] = useState();
     const [endereco, setEndereco] = useState([]);
     const { logradouro, bairro, localidade, } = endereco;
     const bairros = [{ bairro: 'Ponta Negra', taxa: 10 }, { bairro: 'Compensa', taxa: 5 }]
     const navigate = useNavigate()
     const [taxa, setTaxa] = useState(0)
-   
-    
+    const [nome, setNome] = useState()
+    const [telefone, setTelefone] = useState()
+    const [casa, setCasa] = useState()
+    const [observacao, setObservacao] = useState()
+
 
     useEffect(() => {
         CalculaSubTotal()
         CalculaValorTotal(taxa)
-       
-        
 
-        if(carrinho.length<1){
+
+
+        if (carrinho.length < 1) {
             navigate('/cardapio')
         }
 
     })
 
-  
+
 
 
     const calculaTaxa = (bairro) => {
@@ -74,6 +79,46 @@ export const Checkout = () => {
     }
 
 
+    const FinalizaPedido = () => {
+
+        api.post('/CadastrarPedido', {
+            nome: nome,
+            telefone: telefone,
+            cep: cep,
+            bairro: bairro,
+            rua: logradouro,
+            casa: casa,
+
+            produtos: carrinho.map((produto) => {
+                
+                return {
+
+                    id: produto.id.id,
+                    qtd: produto.qtd,
+                    
+
+                }
+                
+            }
+                  
+            ),
+            taxa:taxa,
+            valorTotal:valorTotal,
+            observacao:observacao
+            
+
+        })
+            .then(function (response) {
+                console.log(response);
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
 
     return (
         <>
@@ -94,22 +139,39 @@ export const Checkout = () => {
 
                             </Box>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 5, gap: { xs: 2, md: 2 } }}>
+                                <TextField label='Nome' sx={{ width: { xs: '100%', md: '30%' } }}
+                                    onChange={(e) => setNome(e.target.value)}
+
+
+                                />
+                                <TextField label='Sobrenome' sx={{ width: { xs: '100%', md: '30%' } }}
+                                    onChange={(e) => setNome(e.target.value)}
+
+
+                                />
+                                <TextField label='Telefone para contato' sx={{ width: { xs: '100%', md: '30%' } }}
+                                    onChange={(e) => setTelefone(e.target.value)}
+
+
+                                />
                                 <TextField label='cep' sx={{ width: { xs: '100%', md: '30%' } }}
                                     onBlur={() => buscarCep(cep)}
                                     onChange={(e) => setCep(e.target.value)}
 
 
                                 />
+
                                 <TextField label='rua' sx={{ width: { xs: '100%', md: '100%' } }}
                                     InputLabelProps={{ shrink: true }}
                                     value={logradouro}
 
 
 
+
                                 />
                                 <TextField label='numero' sx={{ width: { xs: '100%', md: '30%' } }}
                                     InputLabelProps={{ shrink: true }}
-
+                                    onChange={(e) => setCasa(e.target.value)}
 
                                 />
                                 <TextField label='complemento' sx={{ width: { xs: '100%', md: '50%' } }}
@@ -152,7 +214,7 @@ export const Checkout = () => {
 
                         <Typography variant="h5">Pedidos Selecionados</Typography>
 
-                        <Box sx={{p:5, bgcolor: 'background.paper'}}>
+                        <Box sx={{ p: 5, bgcolor: 'background.paper' }}>
 
 
 
@@ -194,11 +256,24 @@ export const Checkout = () => {
                                 </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                     <Typography variant="h6">R${subValor}</Typography>
-                                    <Typography>R${taxa}</Typography>
+                                    <Typography>R${taxa.toFixed(2)}</Typography>
                                     <Typography variant="h5">R${valorTotal}</Typography>
                                 </Box>
                             </Box>
 
+                            <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', mt: 3, gap: 2 }}>
+                                <TextField
+                                    id="outlined-multiline-static"
+                                    label="Observação"
+                                    multiline
+                                    sx={{ bgcolor: grey['A700'], width: '100%' }}
+                                    InputLabelProps={{ shrink: true }}
+                                    rows={10}
+                                    onChange={(e) => setObservacao(e.target.value)}
+                                    placeholder={'ex: tirar cebela,troco para 50R$ etc.'}
+                                />
+                                <Button variant="contained" sx={{ width: '100%' }} onClick={FinalizaPedido}>Finalizar Pedido</Button>
+                            </Box>
 
 
                         </Box>
