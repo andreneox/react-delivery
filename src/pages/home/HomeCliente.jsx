@@ -1,46 +1,65 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material"
+import { Box,  Card, CardActions, CardContent, CardMedia, Container, Grid, IconButton, Typography } from "@mui/material"
 
 import { useState } from "react"
-import { useContext } from "react"
+
 import { useEffect } from "react"
 import { AppBarCliente } from "../../components/appbar/AppBarCliente"
 import { api } from "../../config/Api"
-import { CarrinhoContext } from "../../context/Carrinho"
+
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { SnackBarMessage } from "../../components/snackbar/SnackBarMessage"
 
-
+import LunchDiningIcon from '@mui/icons-material/LunchDining';
+import WineBarIcon from '@mui/icons-material/WineBar';
+import AppsIcon from '@mui/icons-material/Apps';
+import { motion } from "framer-motion";
 
 export const HomeCliente = () => {
   const [cardapio, setCardapio] = useState([])
   const [url, setUrl] = useState('http://localhost:3005/files/')
-
+  const [categoria,setCategoria]=useState('todos')
   const cardapioFilter = cardapio.filter(cardapio => cardapio.status != 'inativo');
 
 
   
 
   useEffect(() => {
-
-    api.get('/Cardapio', {
-      headers: {
-        "authorization": localStorage.getItem('token')
-      }
+ 
+    api.get('cliente/Cardapio', {
+     
     })
       .then(function (response) {
         // manipula o sucesso da requisição
         console.log(response)
+        
         setCardapio(response.data.data)
+       
 
       })
       .catch(function (error) {
         // manipula erros da requisição
         console.error(error);
       })
-  }, [setCardapio])
+      
+  },[])
+
+ 
 
 
 
+  const handleCategoriaClick = (categoria) => {
+    
+    setCategoria(categoria);
+
+  };
+
+  const cardapioFilterCategoria = cardapioFilter.filter((item) => {
+    if (categoria === 'todos') {
+      return true;
+    } else {
+      return item.categoria === categoria;
+    }
+  });
 
 
 
@@ -49,18 +68,53 @@ export const HomeCliente = () => {
     <SnackbarProvider maxSnack={3}>
   
       <AppBarCliente />
+     
       <Container maxWidth='xl'>
-        <Grid container sx={{ mt: '70px' }} spacing={2}>
-          {cardapioFilter.map((cardapios, index) => (
-            <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}>
-              <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '400px', maxHeight: '300px' }}>
+      <Box sx={{ display: 'flex', mt: 5,justifyContent:'space-evenly',bgcolor:'background.paper'}}>
+
+      <IconButton>
+
+      <AppsIcon fontSize="large"  sx={{color:categoria === 'todos' ? 'red' : 'outlined'}} onClick={() => handleCategoriaClick('todos')}>
+        Todos
+      </AppsIcon>
+      </IconButton>
+      <IconButton>
+
+      <LunchDiningIcon fontSize="large" sx={{color:categoria === 'Sanduiche' ? 'red' : 'outlined'}}  onClick={() => handleCategoriaClick('Sanduiche')}>
+        Sanduíches
+      </LunchDiningIcon>
+      </IconButton>
+
+      <IconButton>
+
+      <WineBarIcon fontSize="large"  sx={{color:categoria === 'Bebidas' ? 'red' : 'outlined'}}onClick={() => handleCategoriaClick('Bebidas')}>
+        Bebidas
+      </WineBarIcon>
+
+      </IconButton>
+    </Box>
+    
+
+        
+        <Grid container sx={{ mt: '70px' }} spacing={2} >
+     
+        {cardapioFilterCategoria.map((cardapios, index) => (
+      
+            <Grid key={index} item xl={3} sm={4} lg={4} md={4} xs={6}  >
+                     <motion.div
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 1 }}
+         transition={{ duration: 1 }}
+       >
+              <Card  sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '400px', maxHeight: '300px' } }>
                 
          
-                  <CardMedia sx={{display:'flex',justifyContent:'center',mt:2,alignItems:'center',height:'150px'}}>
+                  <CardMedia  sx={{display:'flex',justifyContent:'center',mt:2,alignItems:'center',height:'150px'}}>
                           <img style={{width:'100%',height:'100%'}} src={url+cardapios.img}></img>
                   
 
                   </CardMedia>
+               
               
                 <CardContent sx={{display:'flex',p:1}}>
                   <Typography   variant="h6">
@@ -77,17 +131,19 @@ export const HomeCliente = () => {
                   </CardActions>
                 </Box>
               </Card>
-
+              </motion.div>
             </Grid>
+       
 
-
+           
           ))}
-
+     
 
 
         </Grid>
+        
       </Container>
-
+     
     </SnackbarProvider>
 
 

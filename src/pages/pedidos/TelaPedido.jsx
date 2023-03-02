@@ -3,6 +3,7 @@ import { AppBarAdmin } from "../../components/appbar/AppBarAdmin"
 import { api } from "../../config/Api"
 import { ValidaLogin } from "../../config/ValidaLogin"
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper }   from '@mui/material/styles';
+import { Box } from "@mui/system";
 
 export const TelaPedido = () => {
 
@@ -34,7 +35,11 @@ export const TelaPedido = () => {
 
 
   return (
-    <ValidaLogin>
+
+
+        <ValidaLogin>
+
+      
       <AppBarAdmin />
       <div>
       <h2>Lista de Pedidos</h2>

@@ -81,7 +81,7 @@ export const Checkout = () => {
 
     const FinalizaPedido = () => {
 
-        api.post('/CadastrarPedido', {
+        api.post('/cliente/CadastrarPedido', {
             nome: nome,
             telefone: telefone,
             cep: cep,
