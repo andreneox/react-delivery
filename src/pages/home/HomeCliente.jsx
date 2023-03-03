@@ -63,18 +63,32 @@ export const HomeCliente = () => {
       <Container sx={{mt:10}}>
 
     
-      <Grid container  sx={{border:1}}>
+      <Grid container spacing={2}  >
    
       {cardapioFilter.map((item,index)=>(
    
-      <Grid item xs={12}>
+      <Grid item xs={12} md={4}>
       
         
-        <Card sx={{border:1,width:'100%',height:'150px'}}>
+      <Card sx={{display:'flex',width:'100%',height:'200px',mt:2}}>
+
+       <Box sx={{display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'start',width:'100%',p:1,gap:2}}>
+        <Typography  sx={{fontWeight:'800'}}>{item.titulo}</Typography>
+        <Typography sx={{fontSize:'15px'}} >{item.subtitulo}</Typography>
+        <Box sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+       <Typography sx={{fontWeight:'700'}}>R$ {item.valor}</Typography>
+       <SnackBarMessage add={item}/>
+       </Box>
        
-        <CardMedia sx={{height:'150px'}}>
+       </Box>
+      
+     
+       <Box sx={{display:'flex',justifyContent:'end',alignItems:'center',width:'100%'}}>
+       <CardMedia sx={{height:'100px'}}>
         <img style={{width:'100%',height:'100%'}} src={url+item.img}/>
         </CardMedia>
+        </Box>
+
         </Card>
        
       </Grid>

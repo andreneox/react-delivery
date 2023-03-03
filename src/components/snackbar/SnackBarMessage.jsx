@@ -10,7 +10,7 @@ export const SnackBarMessage =({add}) =>{
  
   const handleClick = () => {
     
-    enqueueSnackbar(add.nome+" "+'no carrinho ;)', { variant: 'success',
+    enqueueSnackbar(add.titulo+" "+'no carrinho ;)', { variant: 'success',
   
   });
     adicionaProduto(add)
