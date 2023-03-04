@@ -26,7 +26,7 @@ export const HomeAdmin = () => {
   const [cardapio, setCardapio] = useState([])
   const [modalEditar, setModalEditar] = useState(false)
   const [modalExcluir, setModalExcluir] = useState(false)
-  const [nome, setNome] = useState()
+  const [titulo, setTitulo] = useState()
   const [valor, setValor] = useState()
   const [status, setStatus] = useState()
   const [img, setImg] = useState()
@@ -117,7 +117,7 @@ export const HomeAdmin = () => {
 
   const EditarItem = (item) => {
     api.put('Atualizar/' + item, {
-      nome: nome,
+      titulo: titulo,
       valor: valor,
       img: img,
       status: status
@@ -129,7 +129,7 @@ export const HomeAdmin = () => {
     }).then(function (response) {
       console.log(response)
       setModalEditar(false)
-      setNome()
+      setTitulo()
       setValor()
       setImg()
       setStatus()
@@ -153,7 +153,7 @@ export const HomeAdmin = () => {
     }).then(function (response) {
       console.log(response)
       setModalEditar(false)
-      setNome()
+      setTitulo()
       setValor()
       setImg()
       setStatus()
@@ -177,7 +177,7 @@ export const HomeAdmin = () => {
     }).then(function (response) {
       console.log(response)
       setModalEditar(false)
-      setNome()
+      setTitulo()
       setValor()
       setImg()
       setStatus()
@@ -258,7 +258,7 @@ export const HomeAdmin = () => {
 
             defaultValue={itemEditar.nome}
             type='text'
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => setTitulo(e.target.value)}
 
 
           />
